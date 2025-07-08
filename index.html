@@ -45,7 +45,6 @@
       justify-content: center;
       padding: 1rem;
       text-align: center;
-      background: linear-gradient(135deg, #d7a7f3, #f9b985);
       transition: background 0.5s ease;
     }
 
@@ -98,12 +97,33 @@
       "la nube susurra: no eres tarde, estás madurando a tu ritmo"
     ];
 
+    const fondos = [
+      "linear-gradient(135deg, #d7a7f3, #f9b985)",
+      "radial-gradient(circle at center, #a6d1f3, #cceeff)",
+      "radial-gradient(circle at center, #fbe7a1, #fff1cc)",
+      "linear-gradient(135deg, #e3c7df, #c9badb)",
+      "linear-gradient(135deg, #d6b3ff, #ecc7fc)",
+      "linear-gradient(135deg, #462255, #703f8e)",
+      "linear-gradient(135deg, #ff9671, #ffc75f)",
+      "linear-gradient(135deg, #b0dc98, #dff6c3)",
+      "linear-gradient(135deg, #2e2235, #564063)",
+      "linear-gradient(135deg, #d8a47f, #f3d9b0)",
+      "linear-gradient(135deg, #ffc288, #ffe0b2)",
+      "linear-gradient(135deg, #a9a9a9, #e0e0e0)",
+      "linear-gradient(135deg, #667779, #a9b1b5)"
+    ];
+
     const mensajeElemento = document.getElementById("mensaje");
+    const contenidoElemento = document.getElementById("contenido");
+
+    // Elegir mensaje aleatorio
     const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
-
     const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
     mensajeElemento.textContent = capitalizar(mensaje);
+
+    // Elegir fondo aleatorio
+    const fondo = fondos[Math.floor(Math.random() * fondos.length)];
+    contenidoElemento.style.background = fondo;
   </script>
 </body>
 </html>
