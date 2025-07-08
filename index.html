@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>☁️ Las Nubes Saben™</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      transition: background-color 0.5s ease;
+      text-align: center;
+    }
+    .mensaje {
+      max-width: 80%;
+      font-size: 1.5em;
+      line-height: 1.4;
+      padding: 1em;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.5);
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>☁️ Las Nubes Saben™</h1>
+  <div class="mensaje" id="mensaje"></div>
+
+  <script>
+    const mensajes = [
+      {mensaje: "la nube dice: estás justo donde necesitas estar", color: "#b4d4cb"},
+      {mensaje: "la nube detecta que estás a punto de soltar lo que ya no vibra contigo", color: "#dcc9f4"},
+      {mensaje: "la nube susurra: no te falta claridad, te falta silencio", color: "#c0cfc4"}
+    ];
+    const index = Math.floor(Math.random() * mensajes.length);
+    const elegido = mensajes[index];
+    document.body.style.backgroundColor = elegido.color;
+    document.getElementById('mensaje').textContent = elegido.mensaje;
+  </script>
+</body>
+</html>
