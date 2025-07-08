@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>☁️ Las Nubes Saben™</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Las Nubes Saben™</title>
   <style>
     * {
       margin: 0;
@@ -41,7 +41,17 @@
       justify-content: center;
       padding: 1rem;
       text-align: center;
+      background: linear-gradient(135deg, #d7a7f3, #f9b985);
       transition: background 0.5s ease;
+    }
+
+    .bloque {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-8%);
+      animation: aparecer 1s ease-out forwards;
     }
 
     .nube {
@@ -50,18 +60,42 @@
       animation: flotar 3s ease-in-out infinite;
     }
 
+    .mensaje {
+      font-size: 1.5rem;
+      line-height: 1.3;
+      max-width: 80%;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      animation: fadeUp 1.2s ease-out 0.3s forwards;
+    }
+
     @keyframes flotar {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
 
-    .mensaje {
-      font-size: 1.2rem;
-      line-height: 1.4;
-      max-width: 80%;
-      color: white;
-      font-weight: bold;
-      text-shadow: 0 0 5px rgba(0,0,0,0.2);
+    @keyframes fadeUp {
+      0% {
+        transform: translateY(10px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes aparecer {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(-8%);
+      }
     }
   </style>
 </head>
@@ -69,41 +103,27 @@
   <div class="header">
     <span>✴️</span> ORÁCULO LAS NUBES SABEN™
   </div>
-
   <div class="contenido" id="contenido">
-    <div class="nube">☁️</div>
-    <div class="mensaje" id="mensaje">Mensaje en camino...</div>
+    <div class="bloque">
+      <div class="nube">☁️</div>
+      <div class="mensaje" id="mensaje">Mensaje en camino...</div>
+    </div>
   </div>
 
   <script>
     const mensajes = [
-      {
-        mensaje: "la nube dice: estás justo donde necesitas estar",
-        fondo: "radial-gradient(circle at center, #cce3dc 0%, #89c2d9 100%)"
-      },
-      {
-        mensaje: "la nube detecta que estás a punto de soltar lo que ya no vibra contigo",
-        fondo: "radial-gradient(circle at center, #e0bbf7 0%, #b38ed3 100%)"
-      },
-      {
-        mensaje: "la nube susurra: no te falta claridad, te falta silencio",
-        fondo: "radial-gradient(circle at center, #fcae61 0%, #c4a3e1 100%)"
-      }
+      "la nube susurra: no te falta claridad, te falta silencio",
+      "la nube dice: estás justo donde necesitas estar",
+      "la nube te recuerda: incluso en el caos hay un orden sagrado",
+      "la nube susurra: no eres tarde, estás madurando a tu ritmo"
     ];
 
-    const index = Math.floor(Math.random() * mensajes.length);
-    const elegido = mensajes[index];
+    const mensajeElemento = document.getElementById("mensaje");
+    const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
 
-    // Capitalizar primera letra automáticamente
-    function capitalizarPrimeraLetra(texto) {
-      return texto.charAt(0).toUpperCase() + texto.slice(1);
-    }
+    const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-    const contenido = document.getElementById('contenido');
-    const mensaje = document.getElementById('mensaje');
-
-    contenido.style.background = elegido.fondo;
-    mensaje.textContent = capitalizarPrimeraLetra(elegido.mensaje);
+    mensajeElemento.textContent = capitalizar(mensaje);
   </script>
 </body>
 </html>
