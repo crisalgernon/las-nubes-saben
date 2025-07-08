@@ -5,47 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>☁️ Las Nubes Saben™</title>
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .header {
+      background-color: #111;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .header span {
+      font-size: 1.5rem;
+    }
+
+    .contenido {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      transition: background-color 0.5s ease;
+      padding: 1rem;
       text-align: center;
+      transition: background 0.5s ease;
     }
+
+    .nube {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
     .mensaje {
-      max-width: 80%;
-      font-size: 1.5em;
+      font-size: 1.2rem;
       line-height: 1.4;
-      padding: 1em;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.5);
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-    h1 {
-      font-size: 1.2em;
-      margin-bottom: 30px;
-      color: #333;
+      max-width: 80%;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
-  <h1>☁️ Las Nubes Saben™</h1>
-  <div class="mensaje" id="mensaje"></div>
+  <div class="header">
+    <span>✴️</span> ORÁCULO LAS NUBES SABEN™
+  </div>
+
+  <div class="contenido" id="contenido">
+    <div class="nube">☁️</div>
+    <div class="mensaje" id="mensaje">Mensaje en camino...</div>
+  </div>
 
   <script>
     const mensajes = [
-      {mensaje: "la nube dice: estás justo donde necesitas estar", color: "#b4d4cb"},
-      {mensaje: "la nube detecta que estás a punto de soltar lo que ya no vibra contigo", color: "#dcc9f4"},
-      {mensaje: "la nube susurra: no te falta claridad, te falta silencio", color: "#c0cfc4"}
+      {
+        mensaje: "la nube dice: estás justo donde necesitas estar",
+        fondo: "#b4d4cb"
+      },
+      {
+        mensaje: "la nube detecta que estás a punto de soltar lo que ya no vibra contigo",
+        fondo: "#dcc9f4"
+      },
+      {
+        mensaje: "la nube susurra: no te falta claridad, te falta silencio",
+        fondo: "radial-gradient(circle, #fcae61 0%, #c4a3e1 100%)"
+      }
     ];
+
     const index = Math.floor(Math.random() * mensajes.length);
     const elegido = mensajes[index];
-    document.body.style.backgroundColor = elegido.color;
-    document.getElementById('mensaje').textContent = elegido.mensaje;
+
+    const contenido = document.getElementById('contenido');
+    const mensaje = document.getElementById('mensaje');
+
+    if (elegido.fondo.includes("gradient")) {
+      contenido.style.background = elegido.fondo;
+    } else {
+      contenido.style.backgroundColor = elegido.fondo;
+    }
+
+    mensaje.textContent = elegido.mensaje;
   </script>
 </body>
 </html>
