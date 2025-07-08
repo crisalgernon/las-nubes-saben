@@ -45,8 +45,14 @@
     }
 
     .nube {
-      font-size: 1.5rem;
+      font-size: 3rem;
       margin-bottom: 1rem;
+      animation: flotar 3s ease-in-out infinite;
+    }
+
+    @keyframes flotar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     .mensaje {
@@ -73,31 +79,31 @@
     const mensajes = [
       {
         mensaje: "la nube dice: estás justo donde necesitas estar",
-        fondo: "#b4d4cb"
+        fondo: "radial-gradient(circle at center, #cce3dc 0%, #89c2d9 100%)"
       },
       {
         mensaje: "la nube detecta que estás a punto de soltar lo que ya no vibra contigo",
-        fondo: "#dcc9f4"
+        fondo: "radial-gradient(circle at center, #e0bbf7 0%, #b38ed3 100%)"
       },
       {
         mensaje: "la nube susurra: no te falta claridad, te falta silencio",
-        fondo: "radial-gradient(circle, #fcae61 0%, #c4a3e1 100%)"
+        fondo: "radial-gradient(circle at center, #fcae61 0%, #c4a3e1 100%)"
       }
     ];
 
     const index = Math.floor(Math.random() * mensajes.length);
     const elegido = mensajes[index];
 
+    // Capitalizar primera letra automáticamente
+    function capitalizarPrimeraLetra(texto) {
+      return texto.charAt(0).toUpperCase() + texto.slice(1);
+    }
+
     const contenido = document.getElementById('contenido');
     const mensaje = document.getElementById('mensaje');
 
-    if (elegido.fondo.includes("gradient")) {
-      contenido.style.background = elegido.fondo;
-    } else {
-      contenido.style.backgroundColor = elegido.fondo;
-    }
-
-    mensaje.textContent = elegido.mensaje;
+    contenido.style.background = elegido.fondo;
+    mensaje.textContent = capitalizarPrimeraLetra(elegido.mensaje);
   </script>
 </body>
 </html>
