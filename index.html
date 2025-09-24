@@ -10,11 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-text-dark: #000000; /* Negro */
-            --color-text-light: #000000; /* Negro para todos los textos */
+            --color-text-dark: #000000;
+            --color-text-light: #000000;
             --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.08);
             --border-radius-lg: 18px;
-            --card-background-color: rgba(255, 255, 255, 0.9); /* Volvemos al blanco */
+            --card-background-color: rgba(255, 255, 255, 0.9);
+            --sheet-offset: 4px;
         }
 
         * {
@@ -24,24 +25,22 @@
         }
 
         body {
-            font-family: 'DM Sans', sans-serif; /* Nueva tipografía: DM Sans */
+            font-family: 'DM Sans', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
-            
-            /* Fondos de gradiente multicapa con color coral añadido */
             background: 
-                radial-gradient(circle at 25% 55%, rgba(210, 180, 255, 0.9) 0%, transparent 60%), /* Lila más intenso */
-                radial-gradient(circle at 75% 45%, rgba(120, 230, 180, 0.9) 0%, transparent 60%), /* Verde menta más intenso */
-                radial-gradient(circle at 50% 15%, rgba(255, 235, 59, 0.7) 0%, transparent 60%), /* Amarillo (opacidad ligeramente reducida) */
-                radial-gradient(circle at 85% 85%, rgba(255, 128, 171, 0.2) 0%, transparent 60%), /* Rosa casi imperceptible */
-                radial-gradient(circle at 15% 70%, rgba(255, 179, 161, 0.8) 0%, transparent 60%); /* Nuevo gradiente: Coral pastel */
-            
+                radial-gradient(circle at 25% 55%, rgba(210, 180, 255, 0.9) 0%, transparent 60%),
+                radial-gradient(circle at 75% 45%, rgba(120, 230, 180, 0.9) 0%, transparent 60%),
+                radial-gradient(circle at 50% 15%, rgba(255, 235, 59, 0.7) 0%, transparent 60%),
+                radial-gradient(circle at 85% 85%, rgba(255, 128, 171, 0.2) 0%, transparent 60%),
+                radial-gradient(circle at 15% 70%, rgba(255, 179, 161, 0.8) 0%, transparent 60%);
             background-size: 350% 350%;
             animation: moveGradient 12s ease-in-out infinite;
+            perspective: 1000px; /* Habilitar perspectiva 3D para la animación de giro */
         }
         
         @keyframes moveGradient {
@@ -50,26 +49,53 @@
             100% { background-position: 0% 50%; }
         }
 
-        .mensaje-box {
-            background-color: var(--card-background-color); /* Volvemos al color blanco */
-            backdrop-filter: blur(8px);
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-subtle);
-            padding: 2.5rem 2rem;
-            max-width: 600px;
+        .card-container {
+            position: relative;
             width: 90%;
-            text-align: left;
+            max-width: 600px;
+            height: 300px; /* Altura fija para que el giro se vea bien */
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .card-container.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius-lg);
+            background-color: var(--card-background-color);
+            box-shadow: var(--shadow-subtle);
+            backface-visibility: hidden; /* Oculta la parte trasera de la tarjeta al girar */
+            padding: 2.5rem 2rem;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
             gap: 0.5rem;
+            text-align: center;
+        }
+
+        .card.front {
+            z-index: 2;
+        }
+
+        .card.back {
+            transform: rotateY(180deg);
+            z-index: 1;
         }
 
         .mensaje-header {
             display: flex;
             align-items: center;
             font-size: 0.9rem;
-            font-weight: 500; /* Medium */
-            color: var(--color-text-light); /* Ahora es negro */
+            font-weight: 500;
+            color: var(--color-text-light);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -82,15 +108,16 @@
 
         .mensaje-principal {
             font-size: 1.55rem;
-            font-weight: 700; /* Bold */
+            font-weight: 700;
             line-height: 1.3;
-            color: var(--color-text-dark); /* Ahora es negro */
+            color: var(--color-text-dark);
+            margin-top: 1rem;
         }
 
         .mensaje-secundario {
             font-size: 0.95rem;
-            font-weight: 400; /* Regular */
-            color: var(--color-text-light); /* Ahora es negro */
+            font-weight: 400;
+            color: var(--color-text-light);
             margin-top: 0.5rem;
         }
 
@@ -100,10 +127,6 @@
         }
 
         @media (max-width: 768px) {
-            .mensaje-box {
-                padding: 2rem 1.5rem;
-                gap: 0.5rem;
-            }
             .mensaje-principal {
                 font-size: 1.25rem;
             }
@@ -117,12 +140,17 @@
     </style>
 </head>
 <body>
-    <div class="mensaje-box" id="mensajeBox">
-        <div class="mensaje-header">
-            MENSAJE DE TU NUBE <span class="emoji-cloud">☁️</span>
+    <div class="card-container" id="cardContainer">
+        <div class="card front">
+            <h1 style="font-size: 2rem;">Las Nubes Saben™</h1>
         </div>
-        <p class="mensaje-principal" id="mensajePrincipal">Respirando...</p>
-        <p class="mensaje-secundario">Si quieres otro mensaje, vuelve a acercarte a la nube.</p>
+        <div class="card back">
+            <div class="mensaje-header">
+                MENSAJE DE TU NUBE <span class="emoji-cloud">☁️</span>
+            </div>
+            <p class="mensaje-principal" id="mensajePrincipal"></p>
+            <p class="mensaje-secundario">Si quieres otro mensaje, vuelve a acercarte a la nube.</p>
+        </div>
     </div>
 
     <script>
@@ -139,7 +167,7 @@
             "Juega. Crea algo sin sentido, sin objetivo, sin perfección.",
             "Hay ideas esperando tu sí. Proyectos, palabras, formas creativas que quieren nacer a través de ti. No necesitas saber cómo. Solo necesitas decir: “Estoy disponible para crear con gozo y propósito.”",
             "Este no es un día cualquiera. Es un día para crear destino. Para hacer esa llamada. Para escribir esa idea.",
-            "El universo no responde a tu esfuerzo, responde a tu vibración. Haz menos. Siente más. Elige desde el placer, desde la visión, desde la certeza. La vida se construye desde adentro hacia fuera.",
+            "El universo no responde a tu esfuerzo, responde a tu vibración. Haz menos. Siente más. Elije desde el placer, desde la visión, desde la certeza. La vida se construye desde adentro hacia fuera.",
             "No avanzas porque sigues esperando aprobación para moverte.",
             "Ya no necesitas más claridad. Necesitas decidir.",
             "Tu bloqueo no es mental, es energético. Tu cuerpo no se siente segur@ aún.",
@@ -346,12 +374,15 @@
         ];
         
         const mensajePrincipalElemento = document.getElementById("mensajePrincipal");
+        const cardContainer = document.getElementById("cardContainer");
         
         const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
         
-        const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
-        mensajePrincipalElemento.textContent = capitalizar(mensaje);
-
+        setTimeout(() => {
+            const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
+            mensajePrincipalElemento.textContent = capitalizar(mensaje);
+            cardContainer.classList.add('flipped');
+        }, 1000); // 1 segundo de retraso antes de la animación
     </script>
 </body>
 </html>
