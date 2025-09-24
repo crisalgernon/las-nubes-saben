@@ -36,7 +36,8 @@
                 radial-gradient(circle at 75% 45%, rgba(120, 230, 180, 0.9) 0%, transparent 60%),
                 radial-gradient(circle at 50% 15%, rgba(255, 235, 59, 0.7) 0%, transparent 60%),
                 radial-gradient(circle at 85% 85%, rgba(255, 128, 171, 0.2) 0%, transparent 60%),
-                radial-gradient(circle at 15% 70%, rgba(255, 179, 161, 0.8) 0%, transparent 60%);
+                radial-gradient(circle at 15% 70%, rgba(255, 179, 161, 0.8) 0%, transparent 60%),
+                radial-gradient(circle at 40% 90%, rgba(255, 99, 71, 0.8) 0%, transparent 60%); /* Nuevo color coral */
             background-size: 350% 350%;
             animation: moveGradient 12s ease-in-out infinite;
             perspective: 1000px;
@@ -52,7 +53,7 @@
             position: relative;
             width: 90%;
             max-width: 600px;
-            min-height: 250px; /* Altura mínima para que la tarjeta no se vea demasiado pequeña */
+            min-height: 250px;
             transform-style: preserve-3d;
             transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -75,19 +76,19 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            justify-content: center; /* Centra el contenido verticalmente */
+            justify-content: center;
         }
 
         .card.front {
             z-index: 2;
-            align-items: center; /* Centra el contenido horizontalmente */
+            align-items: center;
             text-align: center;
         }
 
         .card.back {
             transform: rotateY(180deg);
             z-index: 1;
-            align-items: flex-start; /* Alinea el contenido a la izquierda */
+            align-items: flex-start;
             text-align: left;
         }
 
@@ -383,7 +384,7 @@
         
         setTimeout(() => {
             const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
-            mensajePrincipalElemento.textContent = capitalizar(mensaje);
+            mensajePrincipalElemento.textContent = capitalizar(mensaje.replace('..', '.')); // Elimina dos puntos si existen
             cardContainer.classList.add('flipped');
         }, 1000);
     </script>
