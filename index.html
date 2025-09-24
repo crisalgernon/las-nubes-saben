@@ -7,13 +7,14 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-text-dark: #000000; /* Negro */
-            --color-text-light: #333333; /* Un gris oscuro para contraste */
+            --color-text-dark: #222222; /* Negro casi puro, un poco más suave */
+            --color-text-light: #555555; /* Gris más oscuro para contraste */
             --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.08);
             --border-radius-lg: 18px;
+            --card-background-color: #EBF1EA; /* Color de fondo de la tarjeta de la Image 1 */
         }
 
         * {
@@ -23,7 +24,7 @@
         }
 
         body {
-            font-family: 'Urbanist', sans-serif; /* Usando Urbanist */
+            font-family: 'Inter', sans-serif; /* Volvemos a Inter, que es muy adaptable */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -49,7 +50,7 @@
         }
 
         .mensaje-box {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: var(--card-background-color); /* Usando el nuevo color de fondo */
             backdrop-filter: blur(8px);
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-subtle);
@@ -59,15 +60,15 @@
             text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem; /* Interlineado aún más reducido */
+            gap: 0.5rem; /* Interlineado reducido */
         }
 
         .mensaje-header {
             display: flex;
             align-items: center;
             font-size: 0.9rem;
-            font-weight: 600; /* Peso Semi-Bold */
-            color: var(--color-text-light);
+            font-weight: 500; /* Medium, similar al texto "Impact" de la imagen */
+            color: var(--color-text-light); /* Color más suave para este texto */
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -79,16 +80,16 @@
         }
 
         .mensaje-principal {
-            font-size: 1.4rem; /* Fuente más pequeña */
-            font-weight: 700; /* Peso Bold */
+            font-size: 1.55rem; /* Ajustado para que sea prominente pero no excesivo */
+            font-weight: 600; /* Semi-Bold, similar al título principal de la imagen */
             line-height: 1.3;
             color: var(--color-text-dark); /* Color negro */
         }
 
         .mensaje-secundario {
             font-size: 0.95rem;
-            font-weight: 400; /* Peso Regular */
-            color: var(--color-text-light);
+            font-weight: 400; /* Regular, similar al texto descriptivo de la imagen */
+            color: var(--color-text-light); /* Color más suave */
             margin-top: 0.5rem;
         }
 
@@ -103,7 +104,7 @@
                 gap: 0.5rem;
             }
             .mensaje-principal {
-                font-size: 1.1rem; /* Ajuste para móviles */
+                font-size: 1.25rem; /* Ajuste para móviles */
             }
             .mensaje-secundario {
                 font-size: 0.9rem;
