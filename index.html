@@ -130,42 +130,52 @@
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 3; /* Asegura que las nubes estén por encima de la tarjeta */
-            pointer-events: none; /* Permite hacer clic en la tarjeta debajo */
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden; /* Oculta las nubes que se salgan de la tarjeta */
         }
-
+        
         .cloud {
             position: absolute;
-            background-color: rgba(255, 255, 255, 0.85);
+            background: #fff;
             border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: scale(1);
+            transition: transform 1.5s ease-out, opacity 1.5s ease-out;
+            will-change: transform, opacity;
         }
-        
-        /* Estilos y posiciones de nubes individuales */
-        .cloud-1 { width: 150px; height: 80px; top: 10%; left: 15%; border-radius: 40px; }
-        .cloud-2 { width: 120px; height: 60px; top: 30%; right: 10%; border-radius: 30px; }
-        .cloud-3 { width: 180px; height: 90px; bottom: 20%; left: 20%; border-radius: 45px; }
-        .cloud-4 { width: 100px; height: 50px; bottom: 5%; right: 30%; border-radius: 25px; }
-        .cloud-5 { width: 200px; height: 100px; top: 5%; right: 25%; border-radius: 50px; }
-        .cloud-6 { width: 140px; height: 70px; bottom: 10%; left: 40%; border-radius: 35px; }
+
+        /* Estructura de las nubes con pseudo-elementos */
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: inherit;
+            box-shadow: inherit;
+            transition: inherit;
+        }
+
+        /* Nube 1 */
+        .cloud-1 { width: 150px; height: 80px; top: 10%; left: 15%; }
+        .cloud-1::before { width: 80px; height: 80px; top: -30px; left: 10px; }
+        .cloud-1::after { width: 100px; height: 100px; top: -10px; right: 5px; }
+
+        /* Nube 2 */
+        .cloud-2 { width: 120px; height: 60px; top: 30%; right: 10%; }
+        .cloud-2::before { width: 70px; height: 70px; top: -20px; left: -10px; }
+        .cloud-2::after { width: 90px; height: 90px; top: 0px; right: 15px; }
+
+        /* Nube 3 */
+        .cloud-3 { width: 180px; height: 90px; bottom: 20%; left: 20%; }
+        .cloud-3::before { width: 100px; height: 100px; top: -40px; left: 20px; }
+        .cloud-3::after { width: 120px; height: 120px; top: -10px; right: 0; }
 
         /* Animación para dispersar las nubes */
-        .disperse .cloud-1 { animation: clouds-disperse 1.5s forwards ease-out; animation-delay: 0.1s; transform: translate(-200px, -100px) scale(0); }
-        .disperse .cloud-2 { animation: clouds-disperse 1.5s forwards ease-out; animation-delay: 0.3s; transform: translate(150px, -150px) scale(0); }
-        .disperse .cloud-3 { animation: clouds-disperse 1.5s forwards ease-out; animation-delay: 0.2s; transform: translate(-250px, 120px) scale(0); }
-        .disperse .cloud-4 { animation: clouds-disperse 1.5s forwards ease-out; animation-delay: 0.4s; transform: translate(200px, 100px) scale(0); }
-        .disperse .cloud-5 { animation: clouds-disperse 1.5s forwards ease-out; animation-delay: 0s; transform: translate(-150px, -250px) scale(0); }
-        .disperse .cloud-6 { animation: clouds-disperse 1.5s forwards ease-out; animation-delay: 0.25s; transform: translate(100px, 200px) scale(0); }
-        
-        @keyframes clouds-disperse {
-            to {
-                opacity: 0;
-                transform: scale(0);
-            }
-        }
+        .disperse .cloud-1 { transform: translate(-250px, -150px) scale(0); opacity: 0; }
+        .disperse .cloud-2 { transform: translate(200px, -200px) scale(0); opacity: 0; }
+        .disperse .cloud-3 { transform: translate(-300px, 150px) scale(0); opacity: 0; }
         
         @keyframes flotar {
             0%, 100% { transform: translateY(0); }
@@ -191,9 +201,6 @@
             <div class="cloud cloud-1"></div>
             <div class="cloud cloud-2"></div>
             <div class="cloud cloud-3"></div>
-            <div class="cloud cloud-4"></div>
-            <div class="cloud cloud-5"></div>
-            <div class="cloud cloud-6"></div>
         </div>
         <div class="card front">
             <h1 style="font-size: 2rem;">Las Nubes Saben™</h1>
@@ -430,12 +437,14 @@
         const mensajePrincipalElemento = document.getElementById("mensajePrincipal");
         const cardContainer = document.getElementById("cardContainer");
         const cloudOverlay = document.getElementById("cloudOverlay");
+        const cardFront = document.querySelector('.card.front');
         
         const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
         
-        cardContainer.addEventListener('click', () => {
+        cardFront.addEventListener('click', () => {
             // Activa la animación de dispersión de las nubes
             cloudOverlay.classList.add('disperse');
+            cardFront.style.cursor = 'default';
 
             // Da tiempo a que las nubes se dispersen antes de voltear la tarjeta
             setTimeout(() => {
