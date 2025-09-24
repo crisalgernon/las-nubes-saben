@@ -9,8 +9,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
         :root {
-            --color-text-dark: #333;
-            --color-text-light: #555;
+            --color-text-dark: #000000; /* Negro */
+            --color-text-light: #333333; /* Un gris oscuro para contraste */
             --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.08);
             --border-radius-lg: 18px;
         }
@@ -37,8 +37,8 @@
                 radial-gradient(circle at 50% 15%, rgba(255, 235, 59, 0.7) 0%, transparent 60%), /* Amarillo (opacidad ligeramente reducida) */
                 radial-gradient(circle at 85% 85%, rgba(255, 128, 171, 0.2) 0%, transparent 60%); /* Rosa casi imperceptible */
             
-            background-size: 350% 350%; /* Tamaño ligeramente mayor para más movimiento */
-            animation: moveGradient 12s ease-in-out infinite; /* Transición aún más rápida */
+            background-size: 350% 350%;
+            animation: moveGradient 12s ease-in-out infinite;
         }
         
         @keyframes moveGradient {
@@ -58,7 +58,7 @@
             text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 0.8rem; /* Reducción del espaciado entre elementos */
         }
 
         .mensaje-header {
@@ -78,10 +78,10 @@
         }
 
         .mensaje-principal {
-            font-size: 1.9rem;
+            font-size: 1.6rem; /* Fuente más pequeña que la original (1.9rem) */
             font-weight: 700;
             line-height: 1.3;
-            color: var(--color-text-dark);
+            color: var(--color-text-dark); /* Color negro */
         }
 
         .mensaje-secundario {
@@ -98,10 +98,10 @@
         @media (max-width: 768px) {
             .mensaje-box {
                 padding: 2rem 1.5rem;
-                gap: 1rem;
+                gap: 0.8rem;
             }
             .mensaje-principal {
-                font-size: 1.5rem;
+                font-size: 1.3rem; /* Ajuste para móviles */
             }
             .mensaje-secundario {
                 font-size: 0.9rem;
