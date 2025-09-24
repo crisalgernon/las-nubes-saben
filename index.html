@@ -12,10 +12,13 @@
         :root {
             --color-text-dark: #000000; /* Negro */
             --color-text-light: #000000; /* Negro para todos los textos */
-            --shadow-subtle: 0 8px 30px rgba(0, 0, 0, 0.1);
-            --border-radius-lg: 18px;
-            --card-background-color: rgba(255, 255, 255, 0.95);
-            --sheet-color: rgba(255, 255, 255, 0.8);
+            --shadow-subtle: 0 8px 30px rgba(0, 0, 0, 0.15); /* Sombra más fuerte */
+            --border-radius-lg: 18px; /* Radio de borde para las esquinas */
+            --card-background-color: rgba(255, 255, 255, 0.95); /* Blanco un poco más opaco */
+            --sheet-offset: 4px; /* Offset para cada hoja */
+            --hole-color: #000000; /* Color de los orificios */
+            --line-color: #000000; /* Color de las líneas del borde */
+            --line-thickness: 1px; /* Grosor de la línea */
         }
 
         * {
@@ -50,84 +53,79 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Contenedor principal para el efecto de stack de hojas */
+        .card-stack {
+            position: relative;
+            width: 90%; /* Ajustar al ancho de la tarjeta */
+            max-width: 600px;
+        }
+
+        /* Estilo base para cada "hoja" */
+        .card-sheet {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius-lg);
+            background-color: var(--card-background-color);
+            box-shadow: var(--shadow-subtle);
+            border-left: var(--line-thickness) solid var(--line-color); /* Línea negra al lado izquierdo */
+            z-index: 1; /* Para controlar el orden de las capas */
+        }
+
+        /* Desplazamiento de las hojas traseras */
+        .card-sheet:nth-child(2) { /* Primera hoja detrás */
+            transform: translateX(-1 * var(--sheet-offset));
+            z-index: 0;
+            opacity: 0.9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        .card-sheet:nth-child(3) { /* Segunda hoja detrás */
+            transform: translateX(-2 * var(--sheet-offset));
+            z-index: -1;
+            opacity: 0.8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        .card-sheet:nth-child(4) { /* Tercera hoja detrás */
+            transform: translateX(-3 * var(--sheet-offset));
+            z-index: -2;
+            opacity: 0.7;
+            box-shadow: 0 4px 9px rgba(0, 0, 0, 0.04);
+        }
+        .card-sheet:nth-child(5) { /* Cuarta hoja detrás */
+            transform: translateX(-4 * var(--sheet-offset));
+            z-index: -3;
+            opacity: 0.6;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+        
+        /* Contenido de la tarjeta principal */
         .mensaje-box {
+            position: relative;
             background-color: var(--card-background-color);
             backdrop-filter: blur(8px);
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-subtle);
             padding: 2.5rem 2rem;
-            max-width: 600px;
-            width: 90%;
+            width: 100%; /* Ocupa el ancho del card-stack */
             text-align: left;
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            position: relative;
-            z-index: 5;
+            z-index: 2; /* Siempre encima de las hojas */
+            border-left: var(--line-thickness) solid var(--line-color); /* Línea negra para la hoja principal */
         }
-
-        /* Pseudo-elementos para simular las hojas detrás */
-        .mensaje-box::before,
-        .mensaje-box::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            border-radius: var(--border-radius-lg);
-            background-color: var(--sheet-color);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            z-index: -1;
-            transform: translate(0, 0);
-            left: 0;
-        }
-        
-        .mensaje-box::before {
-            transform: translate(-10px, 10px);
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .mensaje-box::after {
-            transform: translate(-20px, 20px);
-            background-color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Hojas adicionales para el efecto de 4 hojas */
-        .mensaje-box .extra-sheet-1,
-        .mensaje-box .extra-sheet-2 {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            border-radius: var(--border-radius-lg);
-            background-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-            z-index: -2;
-            transform: translate(-30px, 30px);
-        }
-
-        .mensaje-box .extra-sheet-2 {
-            background-color: rgba(255, 255, 255, 0.4);
-            transform: translate(-40px, 40px);
-            z-index: -3;
-        }
-
-        /* Líneas en el borde izquierdo de la tarjeta y las hojas */
-        .mensaje-box::before { border-left: 1px solid rgba(0,0,0,0.1); }
-        .mensaje-box::after { border-left: 1px solid rgba(0,0,0,0.1); }
-        .mensaje-box .extra-sheet-1 { border-left: 1px solid rgba(0,0,0,0.1); }
-        .mensaje-box .extra-sheet-2 { border-left: 1px solid rgba(0,0,0,0.1); }
 
         /* Estilos para los orificios */
         .hole {
             width: 10px;
             height: 10px;
-            background-color: #000;
+            background-color: var(--hole-color);
             border-radius: 50%;
             position: absolute;
-            left: 12px;
+            left: 12px; /* Ajustar posición en relación al card-stack */
+            z-index: 3; /* Asegurarse de que estén encima de todo */
         }
         .hole.top {
             top: 25px;
@@ -172,6 +170,9 @@
         }
 
         @media (max-width: 768px) {
+            .card-stack {
+                width: 95%; /* Un poco más de ancho en móvil */
+            }
             .mensaje-box {
                 padding: 2rem 1.5rem;
                 gap: 0.5rem;
@@ -189,17 +190,22 @@
     </style>
 </head>
 <body>
-    <div class="mensaje-box" id="mensajeBox">
-        <div class="extra-sheet-1"></div>
-        <div class="extra-sheet-2"></div>
+    <div class="card-stack">
+        <div class="card-sheet"></div>
+        <div class="card-sheet"></div>
+        <div class="card-sheet"></div>
+        <div class="card-sheet"></div>
+
         <div class="hole top"></div>
         <div class="hole bottom"></div>
         
-        <div class="mensaje-header">
-            MENSAJE DE TU NUBE <span class="emoji-cloud">☁️</span>
+        <div class="mensaje-box" id="mensajeBox">
+            <div class="mensaje-header">
+                MENSAJE DE TU NUBE <span class="emoji-cloud">☁️</span>
+            </div>
+            <p class="mensaje-principal" id="mensajePrincipal">Respirando...</p>
+            <p class="mensaje-secundario">Si quieres otro mensaje, vuelve a acercarte a la nube.</p>
         </div>
-        <p class="mensaje-principal" id="mensajePrincipal">Respirando...</p>
-        <p class="mensaje-secundario">Si quieres otro mensaje, vuelve a acercarte a la nube.</p>
     </div>
 
     <script>
@@ -212,8 +218,7 @@
             "No necesitas más pasos, necesitas más presencia.",
             "La claridad llega cuando dejas de buscarla como escape.",
             "A veces el propósito no se encuentra, se recuerda. Está escondido detrás de las veces que dijiste “sí” cuando querías decir “no”. Detrás de la voz que callaste, de la idea que no compartiste, del sueño que postergaste.",
-            "La Nube te recuerda que todo lo que ves como error también es parte del diseño. Nada está roto. Estás en medio del entretejido invisible que une cada fragmento de tu historia con una verdad más grande.",
-            "Juega. Crea algo sin sentido, sin objetivo, sin perfección."
+            "La Nube te recuerda que todo lo que ves como error también es parte del diseño. Nada está roto. Estás en medio del entretejido invisible que une cada fragmento de tu historia con una verdad más grande."
         ];
         
         const mensajePrincipalElemento = document.getElementById("mensajePrincipal");
