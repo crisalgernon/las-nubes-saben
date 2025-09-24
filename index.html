@@ -29,20 +29,26 @@
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
-            /* El gradiente inicial se define aquí, pero el JS lo sobrescribirá */
-            background-size: 400% 400%;
-            animation: gradient-animation 20s ease infinite;
-            transition: background-image 0.5s ease; /* Transición para un cambio de gradiente más suave */
+            
+            /* Fondos de gradiente multicapa */
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 128, 171, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 60%, rgba(144, 202, 249, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 60% 10%, rgba(255, 235, 59, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 40% 90%, rgba(153, 222, 197, 0.8) 0%, transparent 50%);
+            background-size: 300% 300%;
+            animation: moveGradient 25s ease-in-out infinite;
         }
-
-        @keyframes gradient-animation {
+        
+        @keyframes moveGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
         .mensaje-box {
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.9); /* Un blanco ligeramente transparente */
+            backdrop-filter: blur(8px); /* Efecto de cristal esmerilado */
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-subtle);
             padding: 2.5rem 2rem;
@@ -334,30 +340,13 @@
             "La Nube detecta magnetismo en ti. Hoy, enfócate en lo que amas, no en lo que te falta. Ahí está tu poder creador."
         ];
         
-        const fondos = [
-            "linear-gradient(135deg, #FF6B6B, #F8E3A6, #A3E4D7)",
-            "linear-gradient(135deg, #8E44AD, #C0392B, #2C3E50)",
-            "linear-gradient(135deg, #1ABC9C, #3498DB, #9B59B6)",
-            "linear-gradient(135deg, #E67E22, #F39C12, #E74C3C)",
-            "linear-gradient(135deg, #34495E, #95A5A6, #BDC3C7)",
-            "linear-gradient(135deg, #3B5998, #8B9DC3, #DFE3EE)",
-            "linear-gradient(135deg, #2ECC71, #27AE60, #2C3E50)",
-            "linear-gradient(135deg, #FAD7A0, #F7DC6F, #D98880)",
-            "linear-gradient(135deg, #8E44AD, #3498DB, #3498DB)",
-            "linear-gradient(135deg, #F1C40F, #E67E22, #C0392B)"
-        ];
-
         const mensajePrincipalElemento = document.getElementById("mensajePrincipal");
-        const bodyElemento = document.body;
-
+        
         const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
+        
         const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
         mensajePrincipalElemento.textContent = capitalizar(mensaje);
 
-        const fondoAleatorio = fondos[Math.floor(Math.random() * fondos.length)];
-        bodyElemento.style.backgroundImage = fondoAleatorio;
-        
     </script>
 </body>
 </html>
