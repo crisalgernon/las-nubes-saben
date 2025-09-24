@@ -12,9 +12,10 @@
         :root {
             --color-text-dark: #000000; /* Negro */
             --color-text-light: #000000; /* Negro para todos los textos */
-            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --border-radius-lg: 18px;
-            --card-background-color: rgba(255, 255, 255, 0.9); /* Volvemos al blanco */
+            --shadow-subtle: 0 8px 30px rgba(0, 0, 0, 0.1); /* Sombra un poco más pronunciada */
+            --border-radius-lg: 18px; /* Radio de borde para las esquinas */
+            --card-background-color: rgba(255, 255, 255, 0.95); /* Blanco un poco más opaco */
+            --sheet-color: rgba(255, 255, 255, 0.8); /* Color para las hojas traseras */
         }
 
         * {
@@ -24,7 +25,7 @@
         }
 
         body {
-            font-family: 'DM Sans', sans-serif; /* Nueva tipografía: DM Sans */
+            font-family: 'DM Sans', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,7 +52,7 @@
         }
 
         .mensaje-box {
-            background-color: var(--card-background-color); /* Volvemos al color blanco */
+            background-color: var(--card-background-color);
             backdrop-filter: blur(8px);
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-subtle);
@@ -62,14 +63,41 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            position: relative; /* Necesario para posicionar las pseudo-hojas */
+            z-index: 2; /* Para que la tarjeta principal esté encima */
+        }
+
+        /* Pseudo-elementos para simular las hojas detrás */
+        .mensaje-box::before,
+        .mensaje-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius-lg);
+            background-color: var(--sheet-color); /* Color de las hojas traseras */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra sutil para cada hoja */
+            z-index: -1; /* Detrás de la tarjeta principal */
+        }
+
+        .mensaje-box::before {
+            transform: translate(-4px, 4px); /* Desplazamiento de la primera hoja */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        .mensaje-box::after {
+            transform: translate(-8px, 8px); /* Desplazamiento de la segunda hoja */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.09);
         }
 
         .mensaje-header {
             display: flex;
             align-items: center;
             font-size: 0.9rem;
-            font-weight: 500; /* Medium */
-            color: var(--color-text-light); /* Ahora es negro */
+            font-weight: 500;
+            color: var(--color-text-light); /* Negro */
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -82,15 +110,15 @@
 
         .mensaje-principal {
             font-size: 1.55rem;
-            font-weight: 700; /* Bold */
+            font-weight: 700;
             line-height: 1.3;
-            color: var(--color-text-dark); /* Ahora es negro */
+            color: var(--color-text-dark); /* Negro */
         }
 
         .mensaje-secundario {
             font-size: 0.95rem;
-            font-weight: 400; /* Regular */
-            color: var(--color-text-light); /* Ahora es negro */
+            font-weight: 400;
+            color: var(--color-text-light); /* Negro */
             margin-top: 0.5rem;
         }
 
