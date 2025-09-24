@@ -40,7 +40,7 @@
                 radial-gradient(circle at 15% 70%, rgba(255, 179, 161, 0.8) 0%, transparent 60%);
             background-size: 350% 350%;
             animation: moveGradient 12s ease-in-out infinite;
-            perspective: 1000px; /* Habilitar perspectiva 3D para la animación de giro */
+            perspective: 1000px;
         }
         
         @keyframes moveGradient {
@@ -53,7 +53,7 @@
             position: relative;
             width: 90%;
             max-width: 600px;
-            height: 300px; /* Altura fija para que el giro se vea bien */
+            height: 300px;
             transform-style: preserve-3d;
             transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -71,23 +71,24 @@
             border-radius: var(--border-radius-lg);
             background-color: var(--card-background-color);
             box-shadow: var(--shadow-subtle);
-            backface-visibility: hidden; /* Oculta la parte trasera de la tarjeta al girar */
+            backface-visibility: hidden;
             padding: 2.5rem 2rem;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
             gap: 0.5rem;
-            text-align: center;
         }
 
         .card.front {
             z-index: 2;
+            align-items: center; /* Alinea al centro el texto de la tarjeta frontal */
+            justify-content: center;
         }
 
         .card.back {
             transform: rotateY(180deg);
             z-index: 1;
+            align-items: flex-start; /* Alinea el contenido a la izquierda */
+            justify-content: flex-start; /* Alinea el contenido arriba */
         }
 
         .mensaje-header {
@@ -112,6 +113,7 @@
             line-height: 1.3;
             color: var(--color-text-dark);
             margin-top: 1rem;
+            text-align: left; /* Asegura que el texto principal se justifique a la izquierda */
         }
 
         .mensaje-secundario {
@@ -119,6 +121,7 @@
             font-weight: 400;
             color: var(--color-text-light);
             margin-top: 0.5rem;
+            text-align: left; /* Asegura que el texto secundario se justifique a la izquierda */
         }
 
         @keyframes flotar {
@@ -382,7 +385,7 @@
             const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
             mensajePrincipalElemento.textContent = capitalizar(mensaje);
             cardContainer.classList.add('flipped');
-        }, 1000); // 1 segundo de retraso antes de la animación
+        }, 1000);
     </script>
 </body>
 </html>
