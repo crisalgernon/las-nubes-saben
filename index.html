@@ -10,15 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-text-dark: #000000; /* Negro */
-            --color-text-light: #000000; /* Negro para todos los textos */
-            --shadow-subtle: 0 8px 30px rgba(0, 0, 0, 0.15); /* Sombra más fuerte */
-            --border-radius-lg: 18px; /* Radio de borde para las esquinas */
-            --card-background-color: rgba(255, 255, 255, 0.95); /* Blanco un poco más opaco */
-            --sheet-offset: 4px; /* Offset para cada hoja */
-            --hole-color: #000000; /* Color de los orificios */
-            --line-color: #000000; /* Color de las líneas del borde */
-            --line-thickness: 1px; /* Grosor de la línea */
+            --color-text-dark: #000000;
+            --color-text-light: #000000;
+            --shadow-subtle: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --border-radius-lg: 18px;
+            --card-background-color: rgba(255, 255, 255, 0.95);
+            --sheet-offset: 4px;
+            --hole-color: #000000;
         }
 
         * {
@@ -53,54 +51,38 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Contenedor principal para el efecto de stack de hojas */
         .card-stack {
             position: relative;
-            width: 90%; /* Ajustar al ancho de la tarjeta */
+            width: 90%;
             max-width: 600px;
         }
-
-        /* Estilo base para cada "hoja" */
-        .card-sheet {
+        
+        /* Hojas traseras */
+        .card-stack .card-sheet {
             position: absolute;
             top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             border-radius: var(--border-radius-lg);
             background-color: var(--card-background-color);
-            box-shadow: var(--shadow-subtle);
-            border-left: var(--line-thickness) solid var(--line-color); /* Línea negra al lado izquierdo */
-            z-index: 1; /* Para controlar el orden de las capas */
-        }
-
-        /* Desplazamiento de las hojas traseras */
-        .card-sheet:nth-child(2) { /* Primera hoja detrás */
-            transform: translateX(-1 * var(--sheet-offset));
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             z-index: 0;
-            opacity: 0.9;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-        .card-sheet:nth-child(3) { /* Segunda hoja detrás */
-            transform: translateX(-2 * var(--sheet-offset));
-            z-index: -1;
-            opacity: 0.8;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-        }
-        .card-sheet:nth-child(4) { /* Tercera hoja detrás */
-            transform: translateX(-3 * var(--sheet-offset));
-            z-index: -2;
-            opacity: 0.7;
-            box-shadow: 0 4px 9px rgba(0, 0, 0, 0.04);
-        }
-        .card-sheet:nth-child(5) { /* Cuarta hoja detrás */
-            transform: translateX(-4 * var(--sheet-offset));
-            z-index: -3;
-            opacity: 0.6;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
         }
         
-        /* Contenido de la tarjeta principal */
+        /* Ajuste de posición y z-index para cada hoja */
+        .card-stack .card-sheet:nth-child(1) {
+            transform: translateX(-4px);
+        }
+        .card-stack .card-sheet:nth-child(2) {
+            transform: translateX(-8px);
+        }
+        .card-stack .card-sheet:nth-child(3) {
+            transform: translateX(-12px);
+        }
+        .card-stack .card-sheet:nth-child(4) {
+            transform: translateX(-16px);
+        }
+
         .mensaje-box {
             position: relative;
             background-color: var(--card-background-color);
@@ -108,30 +90,29 @@
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-subtle);
             padding: 2.5rem 2rem;
-            width: 100%; /* Ocupa el ancho del card-stack */
+            width: 100%;
             text-align: left;
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            z-index: 2; /* Siempre encima de las hojas */
-            border-left: var(--line-thickness) solid var(--line-color); /* Línea negra para la hoja principal */
+            z-index: 1; /* La tarjeta principal siempre arriba */
         }
-
-        /* Estilos para los orificios */
+        
+        /* Círculos que simulan los orificios */
         .hole {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background-color: var(--hole-color);
             border-radius: 50%;
             position: absolute;
-            left: 12px; /* Ajustar posición en relación al card-stack */
-            z-index: 3; /* Asegurarse de que estén encima de todo */
+            left: 12px;
+            z-index: 2; /* Los círculos deben estar por encima de todo */
         }
         .hole.top {
             top: 25px;
         }
         .hole.bottom {
-            top: 60px;
+            top: 55px;
         }
 
         .mensaje-header {
@@ -171,7 +152,7 @@
 
         @media (max-width: 768px) {
             .card-stack {
-                width: 95%; /* Un poco más de ancho en móvil */
+                width: 95%;
             }
             .mensaje-box {
                 padding: 2rem 1.5rem;
