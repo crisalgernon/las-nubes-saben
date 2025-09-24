@@ -1,340 +1,363 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Las Nubes Saben™</title>
-  <link rel="icon" type="image/png" href="/favicon.png" /> <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Las Nubes Saben™</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
-    body {
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
+        :root {
+            --color-text-dark: #333;
+            --color-text-light: #555;
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --border-radius-lg: 18px;
+        }
 
-    .header {
-      background-color: #111;
-      color: white;
-      padding: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .icono {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: radial-gradient(circle at center, #ffffff 0%, #e9f7a5 100%);
-      box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            /* El gradiente inicial se define aquí, pero el JS lo sobrescribirá */
+            background-size: 400% 400%;
+            animation: gradient-animation 20s ease infinite;
+            transition: background-image 0.5s ease; /* Transición para un cambio de gradiente más suave */
+        }
 
-    .contenido {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      text-align: center;
-      transition: background 0.5s ease;
-    }
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    .bloque {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transform: translateY(-8%);
-    }
+        .mensaje-box {
+            background-color: #ffffff;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-subtle);
+            padding: 2.5rem 2rem;
+            max-width: 600px;
+            width: 90%;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
 
-    .nube {
-      font-size: 3rem;
-      margin-bottom: 0.4rem;
-      animation: flotar 3s ease-in-out infinite;
-    }
+        .mensaje-header {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-    .mensaje {
-      font-size: 1.5rem;
-      line-height: 1.1;
-      max-width: 80%;
-      color: white;
-      font-weight: bold;
-      text-shadow: 0 0 3px rgba(0, 0, 0, 0.20);
-    }
+        .mensaje-header .emoji-cloud {
+            margin-left: 8px;
+            font-size: 1.2rem;
+            animation: flotar 3s ease-in-out infinite;
+        }
 
-    @keyframes flotar {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-  </style>
+        .mensaje-principal {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--color-text-dark);
+        }
+
+        .mensaje-secundario {
+            font-size: 0.95rem;
+            color: var(--color-text-light);
+            margin-top: 0.5rem;
+        }
+
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 768px) {
+            .mensaje-box {
+                padding: 2rem 1.5rem;
+                gap: 1rem;
+            }
+            .mensaje-principal {
+                font-size: 1.5rem;
+            }
+            .mensaje-secundario {
+                font-size: 0.9rem;
+            }
+            .mensaje-header {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="header">
-    <div class="icono"></div>
-    ORÁCULO LAS NUBES SABEN™
-  </div>
-  <div class="contenido" id="contenido">
-    <div class="bloque">
-      <div class="nube">☁️</div>
-      <div class="mensaje" id="mensaje">Mensaje en camino...</div>
+    <div class="mensaje-box" id="mensajeBox">
+        <div class="mensaje-header">
+            MENSAJE DE TU NUBE <span class="emoji-cloud">☁️</span>
+        </div>
+        <p class="mensaje-principal" id="mensajePrincipal">Respirando...</p>
+        <p class="mensaje-secundario">Si quieres otro mensaje, vuelve a acercarte a la nube.</p>
     </div>
-  </div>
 
-  <script>
-    const mensajes = [
-      "La incomodidad que evitas es exactamente la puerta que te va a liberar.",
-      "¿Qué harías si ya no necesitaras demostrar nada a nadie?",
-      "Si sigues repitiendo la misma pregunta, quizás la respuesta ya está y tu mente no quiere soltar el viejo patrón.",
-      "Recuerda esto: si algo se siente como lucha constante, puede que estés actuando desde una versión de ti que ya no existe.",
-      "Tu creatividad no está bloqueada. Está esperando que te atrevas a ser imperfect@.",
-      "No necesitas más pasos, necesitas más presencia.",
-      "La claridad llega cuando dejas de buscarla como escape.",
-      "A veces el propósito no se encuentra, se recuerda. Está escondido detrás de las veces que dijiste “sí” cuando querías decir “no”. Detrás de la voz que callaste, de la idea que no compartiste, del sueño que postergaste.",
-      "La Nube te recuerda que todo lo que ves como error también es parte del diseño. Nada está roto. Estás en medio del entretejido invisible que une cada fragmento de tu historia con una verdad más grande.",
-      "Juega. Crea algo sin sentido, sin objetivo, sin perfección.",
-      "Hay ideas esperando tu sí. Proyectos, palabras, formas creativas que quieren nacer a través de ti. No necesitas saber cómo. Solo necesitas decir: “Estoy disponible para crear con gozo y propósito.”",
-      "Este no es un día cualquiera. Es un día para crear destino. Para hacer esa llamada. Para escribir esa idea.",
-      "El universo no responde a tu esfuerzo, responde a tu vibración. Haz menos. Siente más. Elige desde el placer, desde la visión, desde la certeza. La vida se construye desde adentro hacia fuera.",
-      "No avanzas porque sigues esperando aprobación para moverte.",
-      "Ya no necesitas más claridad. Necesitas decidir.",
-      "Tu bloqueo no es mental, es energético. Tu cuerpo no se siente segur@ aún.",
-      "Detrás de cada excusa hay una identidad que no quiere morir.",
-      "Estás esperando sentirte list@ para avanzar, pero ese momento no existe. La preparación real ocurre en el movimiento. Cada paso en la niebla te entrena para sostener lo que pides.",
-      "Si no avanzas afuera, revisa qué no te estás permitiendo sentir adentro.",
-      "Cada vez que te acercas a algo nuevo, tu sistema evalúa si eso es seguro o si parece una amenaza disfrazada. El cuerpo no obedece tus deseos si todavía siente que va a ser rechazado.",
-      "Hay puertas esperando ser abiertas, pero sigues tocando las que ya se cerraron. Hoy la nube te pregunta: ¿estás realmente avanzando o solo girando en círculos alrededor de lo que ya conoces?",
-      "¿A qué parte de ti le conviene que nada cambie?",
-      "¿Cuál es la excusa que más usas y de qué te protege?",
-      "¿Qué te daría miedo que los demás vieran de ti si realmente brillaras?",
-      "Estás más cerca de lo que crees, pero no en la forma que imaginaste.",
-      "Tu alma ya decidió. Solo tu mente sigue dudando.",
-      "La respuesta que buscas está en lo que más estás evitando.",
-      "Hay una parte de ti que ya sabe lo que necesita dejar ir. Pero tu mente lo disfraza de dudas, estrategias o preguntas sin fin.",
-      "La mente cree que necesita más información para avanzar, pero la sabiduría que no estás viendo ya está en ti. Se manifiesta en tus sueños, en tus reacciones, en ese impulso que sigues callando.",
-      "Estás preguntando por qué no se manifiesta, pero no has visto que sigues vibrando como si no lo merecieras.",
-      "Esa incomodidad que ignoras no es un problema. Es una brújula. Es el siguiente paso.",
-      "Estás esperando una señal externa, pero ya la recibiste en forma de intuición.",
-      "¿Qué ganancia hay en seguir diciendo “no sé”?",
-      "¿Qué no quieres reconocer sobre tu deseo, porque implicaría asumir más poder?",
-      "¿Qué hay detrás de tus dudas que no te has atrevido a mirar con compasión?",
-      "La creación real nace cuando suelto la necesidad de controlar.",
-      "Estoy disponible para crear desde el gozo, no desde la lucha.",
-      "La inspiración llega cuando descanso en mi autenticidad.",
-      "Cada vez que sientes que tienes que esforzarte para que algo funcione, pregúntate si eso realmente es para ti. La alineación no grita, no empuja, no fuerza. Solo guía, nutre y abre camino con suavidad y certeza.",
-      "Deja de intentar “hacer que funcione”. Si algo no fluye, no se trata de más fuerza, sino de más fidelidad a tu energía. La creación más poderosa nace desde el gozo, la visión clara y el sí interno.",
-      "No necesitas probar tu valor creando sin parar. Tu presencia ya es suficiente. Desde ahí, desde el merecimiento profundo, nace lo nuevo. Lo otro es compulsión disfrazada de productividad.",
-      "Tu arte, tu proyecto, tu creación... no quiere perfección. Cuando creas desde el alma, lo imperfecto se vuelve medicina, y lo espontáneo se vuelve guía.",
-      "¿Qué energía estás usando para crear: urgencia o visión?",
-      "¿Qué dejarías de hacer hoy si confiaras en que todo lo que deseas va a llegar igual?",
-      "Ya no necesito esperar motivación. Elijo actuar desde mi verdad.",
-      "Hoy es un buen día para avanzar con ligereza.",
-      "No tienes que tenerlo todo resuelto para empezar. Solo necesitas claridad sobre el próximo paso, y la disposición de hacerlo con el corazón abierto.",
-      "La claridad llega cuando te mueves. No antes. No esperes sentirte segur@, empieza con un pequeño sí. La certeza aparece en el cuerpo cuando actúas en coherencia.",
-      "Cada vez que postergas por “no saber qué hacer”, te desconectas del ritmo natural de la creación. El universo no espera perfección, espera disposición. Avanza, aunque sea imperfecto.",
-      "No subestimes el poder de una pequeña acción. Una conversación, un email escrito, una decisión que postergabas… Todo gesto que nace desde el propósito tiene un retorno gratificante.",
-      "¿Qué pasaría si tomas una acción hoy solo por el placer de hacerla?",
-      "No se trata de hacer más. Se trata de hacer lo correcto para ti en este momento. Una acción alineada puede valer más que cien.",
-      "Cuando postergas lo que sabes que debes hacer, estás diciendo que tu expansión puede esperar. ¿Estás segur@ que quieres esperar más?",
-      "¿En qué momento confundiste autenticidad con perfección?",
-      "¿A quién o a qué le estás culpando por no tomar acción?",
-      "¿Qué sabes que necesitas hacer, pero aún no te atreves a comenzar?",
-      "¿Qué pequeña acción podrías tomar hoy que honre tu propósito?",
-      "Tu propósito es más simple de lo que crees, pero tu mente lo complica para protegerte. ¿Y si hoy te permites creer que ya eres suficiente para empezar a vivirlo, sin más conocimiento, ni validaciones externas?",
-      "El alma no quiere un plan de cinco años. Quiere coherencia con tu luz. Cada vez que eliges lo que es real para ti, se activa una pieza del rompecabezas. Tu propósito es un acto cotidiano de fidelidad interna.",
-      "¿Qué amas hacer, pero no te has permitido tomarlo en serio?",
-      "¿A qué te aferras que ya no vibra con la versión de ti que quieres crear?",
-      "Las ideas que persisten en tu mente son instrucciones del alma. Escríbelas en una libreta.",
-      "No subestimes tus ideas espontáneas. Esas que llegan cuando estás en calma, cocinando, bailando o caminando.",
-      "A veces lo nuevo no llega porque estás llen@ de estructuras viejas. Vacía espacio: deja de hacer lo que ya no vibra, y la inspiración tendrá por dónde entrar. Tu próximo camino no necesita permiso, necesita espacio.",
-      "Estás hecha para crear cosas que no existen todavía. No busques modelos. Sé el modelo. Hay personas esperando algo que sólo tú puedes ofrecer desde tu forma única de ver el mundo.",
-      "Si una idea vuelve a ti una y otra vez, es porque quiere manifestarse a través de ti. No se trata de saber cómo hacerlo todo. Se trata de decirle que sí al proceso y dar el primer paso.",
-      "Lo que más te emociona, lo que más te conecta, podría ser la base de tu próximo proyecto o decisión expansiva.",
-      "La creatividad se activa y el éxito llega cuando dejas de intentar complacer a todos. Haz lo que tú harías incluso si nadie lo aprueba.",
-      "Tu alma quiere explorar más de lo que te permites. Cada día que te niegas a crear por miedo al juicio, postergas un futuro brillante. Empieza hoy con algo pequeño, aunque sea solo para ti.",
-      "No necesitas tener todo claro para decidir. Necesitas una emoción verdadera que te diga: “esto tiene sentido para mí ahora”.",
-      "¿Qué idea llevas tiempo posponiendo porque temes que sea “muy rara” o “muy tú”?",
-      "¿Qué harías si supieras que no puedes fallar, solo experimentar?",
-      "¿Qué parte de tu creatividad has ocultado para ser “más profesional”?",
-      "¿Qué inspiración has recibido últimamente que aún no te has atrevido a escribir, compartir o empezar?",
-      "La abundancia empieza cuando dejas de mendigar permiso para recibir.",
-      "Tu gozo es una frecuencia magnética de riqueza.",
-      "La gratitud diaria activa nuevos niveles de abundancia.",
-      "La abundancia no es una meta, es una relación conmigo mism@.",
-      "La abundancia no se manifiesta solo en números o bienes. Se siente primero en el cuerpo, como una apertura suave, como una certeza interna. Si hoy te das permiso de sentirte merecedor@, ya estás creando abundancia.",
-      "Estás list@ para dejar de asociar la abundancia con sacrificio. Hay otra forma: la del merecimiento suave, la del trabajo desde la presencia, la del recibir desde el alma, no desde la carencia.",
-      "La vida quiere darte más, pero tú sigues negociando con creencias antiguas. ¿Y si hoy eliges actualizar tu concepto de riqueza? La verdadera abundancia es cuando tu alma se siente expandida y sostenida.",
-      "Has confundido abundancia con acumulación. Pero la abundancia real es circulación, conexión, confianza. Es compartir sin miedo, es saber que nada se agota, que todo se renueva desde tu campo.",
-      "¿A quién estás siendo leal cuando eliges escasez emocional o material?",
-      "La confusión es una invitación a pausar, no a rendirme.",
-      "Elijo sentir antes que resolver.",
-      "Cuando respiro, recuerdo quién soy. Respira profundo.",
-      "La duda no es enemiga, es un llamado para que te detengas y vuelvas a encontrarte.",
-      "¿A quién estás tratando de complacer en tu toma de decisiones?",
-      "Tu creatividad no está rota. Solo está esperando que dejes de juzgarla, que dejes de pedirle utilidad o éxito. Lo que quiere es respirar contigo, moverse sin reglas, hablarte con símbolos, colores, silencios.",
-      "Hay algo que solo tú puedes crear. No por tu técnica, sino por tu energía. Por tu historia, tu herida, tu visión. El mundo necesita esa frecuencia única que vive en tus manos y tu corazón.",
-      "¿Qué parte has silenciado por miedo a no “hacerlo bien”?",
-      "¿Qué creencia limita tu libertad a crear y a exponerte?",
-      "Crear sin accionar es una forma sutil de autosabotaje.",
-      "La inspiración necesita acción para ser completada.",
-      "Tu proyecto merece más que ideas: merece presencia y ejecución.",
-      "Estoy list@ para sostener lo que quiero ver nacer.",
-      "La acción es mi canal de materialización consciente.",
-      "Crear es un acto poderoso, pero sin acción concreta se convierte en evasión disfrazada. Si lo que estás canalizando es valioso para ti, ¿por qué no lo estás sosteniendo también en lo físico?",
-      "¿De qué te estás protegiendo? ¿Del miedo al rechazo? ¿La idea de que aún “no estás list@”? La perfección es una excusa que oculta un miedo más profundo: el de ser vista en tu poder.",
-      "El universo no puede ayudarte si no das señales claras. Cada acción es un acto de claridad vibracional. La magia responde a lo que eliges sostener, no a lo que solo piensas hacer.",
-      "Cada tarea evitada es una puerta cerrada al proyecto que sueñas. No todo paso tiene que inspirarte, pero sí puede estar al servicio de tu visión.",
-      "¿Qué estás evitando al no ejecutar lo que sabes que necesitas hacer?",
-      "¿Cuántas ideas hermosas han muerto en tu mente por falta de acción sostenida?",
-      "¿Qué miedo te protege cuando no accionas, aunque digas “lo hago mañana”?",
-      "Estás poniendo excusas.",
-      "Los patrones se repiten hasta que se han aprendido las lecciones.",
-      "Trátate bien, las cosas no han de costar tanto.",
-      "Deja de compararte con los demás: tú estás en tu propio camino, y ellos, en los suyos.",
-      "Para obtener un resultado distinto, fíjate en tu manera de reaccionar.",
-      "Deja de conformarte. Es momento de hacer las cosas a tu manera.",
-      "Tómate un momento sin más energía que la tuya.",
-      "Apaga el móvil y date un respiro de las redes sociales. En silencio, entra en tu interior.",
-      "¿Sabías que evitar hacer algo requiere tanta energía mental como llevarlo a cabo? Esta es la señal para que lo hagas.",
-      "Pronto celebrarás una gran victoria.",
-      "En esta ocasión, guárdate tus ideas y planes para ti.",
-      "Deja de temer tu potencial.",
-      "Esa sensación que tienes es acertada.",
-      "Tu esfuerzo pronto hallará recompensa.",
-      "Todo va a salir bien: el universo te está preparando el camino.",
-      "¡Sí, sí. SÍ, SÍ, SÍ...!",
-      "Invierte en tu futuro.",
-      "Manifiéstate más allá de tus sueños. Cierra los ojos y visualiza cómo será la vida cuando todo lo que deseas se haga realidad.",
-      "Si no te sientes de acuerdo, entonces la respuesta es no.",
-      "Esta vez, tu instinto está en lo cierto.",
-      "La Nube te sugiere que modifiques tu rutina para provocar grandes cambios y alterar energías.",
-      "No le des tantas vueltas.",
-      "No hay una manera equivocada de hacer las cosas...sigue.",
-      "Suelta tu necesidad de control. Solo cuando te rindes, puedes liberarte.",
-      "Sé más consciente de lo que consumes para la mente y para tu cuerpo.",
-      "Hay una voz en ti que no grita, pero insiste. Hoy escúchala.",
-      "Haz menos. Siente más. Confía más.",
-      "¿A qué sueño ya le pusiste fecha de expiración sin darte cuenta?",
-      "La Nube de hoy te susurra: La claridad llega cuando dejas de buscarla como estrategia para controlar.",
-      "La Nube te observa... y te recuerda que tu poder no necesita validación externa.",
-      "Hoy permite que tu respiración tome decisiones antes que tu mente.",
-      "Estás tan cerca de la abundancia... que solo el auto-sabotaje lo nota.",
-      "Revelación: La indecisión es solo el disfraz del miedo a ser visto brillando.",
-      "Este no es un día para avanzar. Es un día para honrar el punto donde estás.",
-      "Hoy la Nube te habla con fuerza: Lo que no sueltas, lo repites.",
-      "La energía que pones en compararte… úsala para recordarte.",
-      "La Nube dice: Tu creatividad no está bloqueada, está siendo ignorada.",
-      "Afirmación oracular: Todo lo que creo desde amor, expande.",
-      "La única “estrategia” que necesitas es PRESENCIA.",
-      "Revelación: El “no sé cómo” es solo la mente protegiéndote de lo inevitable.",
-      "No es que no sepas qué hacer. Es que estás esperando tener garantizado el resultado antes de decidir.",
-      "Ese cansancio que sientes no viene del trabajo. Viene de sostener una identidad que ya no vibra contigo.",
-      "La idea que hoy te visita no es casualidad. Es un fragmento de futuro que ha elegido tu cuerpo como hogar. No la ignores por parecer “loca”, “imposible” o “muy distinta”.",
-      "La Nube quiere que recuerdes esto:",
-      "Tu energía es un imán.",
-      "Cuando haces desde alegría, todo se abre más rápido.",
-      "Cuando creas desde deseo, todo se potencia.",
-      "Eso que llamas ‘bloqueo’ es solo una parte de ti esperando ser escuchada.",
-      "Estás más cerca de lo que crees.",
-      "Deja de pensar cómo lo haría otra persona.",
-      "Hazlo como tú lo harías...pero hazlo.",
-      "El problema no es que no sepas qué hacer.",
-      "Es que estás esperando sentirte segur@ antes de hacerlo.",
-      "Pero la seguridad viene después de elegir, no antes.",
-      "Hoy, elige avanzar igual.",
-      "La Nube te revela esto: tu alma ya eligió hace rato.",
-      "Pero tu mente sigue buscando opciones que te hagan sentir segur@.",
-      "Hay una parte de ti que ya decidió… pero estás entreteniéndote con distracciones para no actuar.",
-      "La Nube te pregunta: ¿de quién es la voz que suena en tu mente cuando dudas de ti?",
-      "“Tu mejor estrategia es ser tú, sin forzar.”",
-      "Hoy, da el paso que lleva tiempo pidiendo ser dado.",
-      "No tiene que ser perfecto. No tiene que ser grande. Solo tiene que ser verdadero.",
-      "La Nube te recuerda: cuando caminas desde el gozo, el universo acelera contigo.",
-      "No estás esperando claridad. Estás esperando permiso.",
-      "Y la única persona que puede dártelo… eres tú.",
-      "¿Qué acción pequeña podrías hacer hoy que te haría sentir orgullos@?",
-      "¿Qué estás postergando por miedo a hacerlo mal, aunque sabes que hacerlo cambiaría todo?",
-      "¿Qué es lo que más deseas... y qué estás haciendo hoy para acercarte a eso?",
-      "¿Qué decisión cambiaría tu semana si te animaras a tomarla hoy?",
-      "Hoy no busques afuera. No preguntes qué deberías hacer.",
-      "La Nube te recuerda: ya lo sabes.",
-      "¿Sabes por qué te cuesta reconocer tu propósito?",
-      "Porque es tan natural para ti… que lo subestimas.",
-      "Tu camino no tiene que parecerse al de nadie más.",
-      "Está hecho a tu medida, a tu ritmo, con tus colores.",
-      "¿Qué harías todos los días aunque nadie te pagara por hacerlo?",
-      "Hoy la Nube quiere jugar contigo.",
-      "Haz algo que nunca harías: un post ridículo, un producto absurdo, un negocio que parezca una broma.",
-      "Y míralo bien… puede que dentro de esa locura viva tu próxima expansión.",
-      "Hoy la Nube te invita a dejar de buscar fórmulas.",
-      "Y empezar a crear desde tu forma.",
-      "Esa es tu diferencia.",
-      "Hoy, abre los sentidos.",
-      "Las Nubes están dejando pistas.",
-      "Este oráculo ha detectado evasión nivel experto.",
-      "Esa idea loca que te persigue… no se va a ir.",
-      "Sí, te estás autoengañando. Con estilo, eso sí.",
-      "Tu zona de confort ya tiene moho.",
-      "Tu miedo está manejando el coche. Tú solo crees que conduces.",
-      "Estás esperando inspiración… pero llevas tres horas en Instagram.",
-      "Crear sin accionar = masturbación energética.",
-      "Tu idea no necesita más colores. Necesita fecha de entrega.",
-      "A veces es mejor un 80% hecho que un 100% imaginado.",
-      "Tu “mañana lo hago” es hoy.",
-      "Suficiente análisis. Acción, por favor.",
-      "No necesitas más cursos. Necesitas más coraje.",
-      "Estás procrastinando tan bien que parece autoconocimiento.",
-      "Si tu proceso de sanar es eterno, quizás te gusta más el drama que la transformación... ¡auch!",
-      "¿Qué haces tanto analizando tus heridas si no usas la medicina?",
-      "¿Y si la indecisión es solo una forma elegante de seguir en lo mismo?",
-      "Manifiestas lento porque tu WiFi interno está colapsado por tanto pensamiento repetido.",
-      "No eres floj@, eres profundamente comprometid@ con tu evasión.",
-      "¿No te vibra o solo no quieres hacer lo difícil?",
-      "Si no lo haces tú, nadie más lo va a hacer por ti. Ni el universo.",
-      "La Nube te confirma: lo que estás postergando no es difícil, es transformador. Por eso lo evitas.",
-      "La Nube te dice: estás lista para recibir a lo grande.",
-      "La Nube reflexiona: estás más alinead@ de lo que crees. Solo necesitas confiar en tu ritmo.",
-      "La Nube te dice con certeza: estás más cerca de lo que crees.",
-      "La Nube detecta que ya estás vibrando diferente.",
-      "La Nube sabe que estás en el borde exacto de tu nueva versión. No retrocedas. Un paso más… y todo se abre.",
-      "La Nube detecta una decisión poderosa esperando nacer. Hoy, di ese “sí” que viene cargado de destino.",
-      "La Nube detecta magnetismo en ti. Hoy, enfócate en lo que amas, no en lo que te falta. Ahí está tu poder creador."
-    ];
+    <script>
+        const mensajes = [
+            "La incomodidad que evitas es exactamente la puerta que te va a liberar.",
+            "¿Qué harías si ya no necesitaras demostrar nada a nadie?",
+            "Si sigues repitiendo la misma pregunta, quizás la respuesta ya está y tu mente no quiere soltar el viejo patrón.",
+            "Recuerda esto: si algo se siente como lucha constante, puede que estés actuando desde una versión de ti que ya no existe.",
+            "Tu creatividad no está bloqueada. Está esperando que te atrevas a ser imperfect@.",
+            "No necesitas más pasos, necesitas más presencia.",
+            "La claridad llega cuando dejas de buscarla como escape.",
+            "A veces el propósito no se encuentra, se recuerda. Está escondido detrás de las veces que dijiste “sí” cuando querías decir “no”. Detrás de la voz que callaste, de la idea que no compartiste, del sueño que postergaste.",
+            "La Nube te recuerda que todo lo que ves como error también es parte del diseño. Nada está roto. Estás en medio del entretejido invisible que une cada fragmento de tu historia con una verdad más grande.",
+            "Juega. Crea algo sin sentido, sin objetivo, sin perfección.",
+            "Hay ideas esperando tu sí. Proyectos, palabras, formas creativas que quieren nacer a través de ti. No necesitas saber cómo. Solo necesitas decir: “Estoy disponible para crear con gozo y propósito.”",
+            "Este no es un día cualquiera. Es un día para crear destino. Para hacer esa llamada. Para escribir esa idea.",
+            "El universo no responde a tu esfuerzo, responde a tu vibración. Haz menos. Siente más. Elige desde el placer, desde la visión, desde la certeza. La vida se construye desde adentro hacia fuera.",
+            "No avanzas porque sigues esperando aprobación para moverte.",
+            "Ya no necesitas más claridad. Necesitas decidir.",
+            "Tu bloqueo no es mental, es energético. Tu cuerpo no se siente segur@ aún.",
+            "Detrás de cada excusa hay una identidad que no quiere morir.",
+            "Estás esperando sentirte list@ para avanzar, pero ese momento no existe. La preparación real ocurre en el movimiento. Cada paso en la niebla te entrena para sostener lo que pides.",
+            "Si no avanzas afuera, revisa qué no te estás permitiendo sentir adentro.",
+            "Cada vez que te acercas a algo nuevo, tu sistema evalúa si eso es seguro o si parece una amenaza disfrazada. El cuerpo no obedece tus deseos si todavía siente que va a ser rechazado.",
+            "Hay puertas esperando ser abiertas, pero sigues tocando las que ya se cerraron. Hoy la nube te pregunta: ¿estás realmente avanzando o solo girando en círculos alrededor de lo que ya conoces?",
+            "¿A qué parte de ti le conviene que nada cambie?",
+            "¿Cuál es la excusa que más usas y de qué te protege?",
+            "¿Qué te daría miedo que los demás vieran de ti si realmente brillaras?",
+            "Estás más cerca de lo que crees, pero no en la forma que imaginaste.",
+            "Tu alma ya decidió. Solo tu mente sigue dudando.",
+            "La respuesta que buscas está en lo que más estás evitando.",
+            "Hay una parte de ti que ya sabe lo que necesita dejar ir. Pero tu mente lo disfraza de dudas, estrategias o preguntas sin fin.",
+            "La mente cree que necesita más información para avanzar, pero la sabiduría que no estás viendo ya está en ti. Se manifiesta en tus sueños, en tus reacciones, en ese impulso que sigues callando.",
+            "Estás preguntando por qué no se manifiesta, pero no has visto que sigues vibrando como si no lo merecieras.",
+            "Esa incomodidad que ignoras no es un problema. Es una brújula. Es el siguiente paso.",
+            "Estás esperando una señal externa, pero ya la recibiste en forma de intuición.",
+            "¿Qué ganancia hay en seguir diciendo “no sé”?",
+            "¿Qué no quieres reconocer sobre tu deseo, porque implicaría asumir más poder?",
+            "¿Qué hay detrás de tus dudas que no te has atrevido a mirar con compasión?",
+            "La creación real nace cuando suelto la necesidad de controlar.",
+            "Estoy disponible para crear desde el gozo, no desde la lucha.",
+            "La inspiración llega cuando descanso en mi autenticidad.",
+            "Cada vez que sientes que tienes que esforzarte para que algo funcione, pregúntate si eso realmente es para ti. La alineación no grita, no empuja, no fuerza. Solo guía, nutre y abre camino con suavidad y certeza.",
+            "Deja de intentar “hacer que funcione”. Si algo no fluye, no se trata de más fuerza, sino de más fidelidad a tu energía. La creación más poderosa nace desde el gozo, la visión clara y el sí interno.",
+            "No necesitas probar tu valor creando sin parar. Tu presencia ya es suficiente. Desde ahí, desde el merecimiento profundo, nace lo nuevo. Lo otro es compulsión disfrazada de productividad.",
+            "Tu arte, tu proyecto, tu creación... no quiere perfección. Cuando creas desde el alma, lo imperfecto se vuelve medicina, y lo espontáneo se vuelve guía.",
+            "¿Qué energía estás usando para crear: urgencia o visión?",
+            "¿Qué dejarías de hacer hoy si confiaras en que todo lo que deseas va a llegar igual?",
+            "Ya no necesito esperar motivación. Elijo actuar desde mi verdad.",
+            "Hoy es un buen día para avanzar con ligereza.",
+            "No tienes que tenerlo todo resuelto para empezar. Solo necesitas claridad sobre el próximo paso, y la disposición de hacerlo con el corazón abierto.",
+            "La claridad llega cuando te mueves. No antes. No esperes sentirte segur@, empieza con un pequeño sí. La certeza aparece en el cuerpo cuando actúas en coherencia.",
+            "Cada vez que postergas por “no saber qué hacer”, te desconectas del ritmo natural de la creación. El universo no espera perfección, espera disposición. Avanza, aunque sea imperfecto.",
+            "No subestimes el poder de una pequeña acción. Una conversación, un email escrito, una decisión que postergabas… Todo gesto que nace desde el propósito tiene un retorno gratificante.",
+            "¿Qué pasaría si tomas una acción hoy solo por el placer de hacerla?",
+            "No se trata de hacer más. Se trata de hacer lo correcto para ti en este momento. Una acción alineada puede valer más que cien.",
+            "Cuando postergas lo que sabes que debes hacer, estás diciendo que tu expansión puede esperar. ¿Estás segur@ que quieres esperar más?",
+            "¿En qué momento confundiste autenticidad con perfección?",
+            "¿A quién o a qué le estás culpando por no tomar acción?",
+            "¿Qué sabes que necesitas hacer, pero aún no te atreves a comenzar?",
+            "¿Qué pequeña acción podrías tomar hoy que honre tu propósito?",
+            "Tu propósito es más simple de lo que crees, pero tu mente lo complica para protegerte. ¿Y si hoy te permites creer que ya eres suficiente para empezar a vivirlo, sin más conocimiento, ni validaciones externas?",
+            "El alma no quiere un plan de cinco años. Quiere coherencia con tu luz. Cada vez que eliges lo que es real para ti, se activa una pieza del rompecabezas. Tu propósito es un acto cotidiano de fidelidad interna.",
+            "¿Qué amas hacer, pero no te has permitido tomarlo en serio?",
+            "¿A qué te aferras que ya no vibra con la versión de ti que quieres crear?",
+            "Las ideas que persisten en tu mente son instrucciones del alma. Escríbelas en una libreta.",
+            "No subestimes tus ideas espontáneas. Esas que llegan cuando estás en calma, cocinando, bailando o caminando.",
+            "A veces lo nuevo no llega porque estás llen@ de estructuras viejas. Vacía espacio: deja de hacer lo que ya no vibra, y la inspiración tendrá por dónde entrar. Tu próximo camino no necesita permiso, necesita espacio.",
+            "Estás hecha para crear cosas que no existen todavía. No busques modelos. Sé el modelo. Hay personas esperando algo que sólo tú puedes ofrecer desde tu forma única de ver el mundo.",
+            "Si una idea vuelve a ti una y otra vez, es porque quiere manifestarse a través de ti. No se trata de saber cómo hacerlo todo. Se trata de decirle que sí al proceso y dar el primer paso.",
+            "Lo que más te emociona, lo que más te conecta, podría ser la base de tu próximo proyecto o decisión expansiva.",
+            "La creatividad se activa y el éxito llega cuando dejas de intentar complacer a todos. Haz lo que tú harías incluso si nadie lo aprueba.",
+            "Tu alma quiere explorar más de lo que te permites. Cada día que te niegas a crear por miedo al juicio, postergas un futuro brillante. Empieza hoy con algo pequeño, aunque sea solo para ti.",
+            "No necesitas tener todo claro para decidir. Necesitas una emoción verdadera que te diga: “esto tiene sentido para mí ahora”.",
+            "¿Qué idea llevas tiempo posponiendo porque temes que sea “muy rara” o “muy tú”?",
+            "¿Qué harías si supieras que no puedes fallar, solo experimentar?",
+            "¿Qué parte de tu creatividad has ocultado para ser “más profesional”?",
+            "¿Qué inspiración has recibido últimamente que aún no te has atrevido a escribir, compartir o empezar?",
+            "La abundancia empieza cuando dejas de mendigar permiso para recibir.",
+            "Tu gozo es una frecuencia magnética de riqueza.",
+            "La gratitud diaria activa nuevos niveles de abundancia.",
+            "La abundancia no es una meta, es una relación conmigo mism@.",
+            "La abundancia no se manifiesta solo en números o bienes. Se siente primero en el cuerpo, como una apertura suave, como una certeza interna. Si hoy te das permiso de sentirte merecedor@, ya estás creando abundancia.",
+            "Estás list@ para dejar de asociar la abundancia con sacrificio. Hay otra forma: la del merecimiento suave, la del trabajo desde la presencia, la del recibir desde el alma, no desde la carencia.",
+            "La vida quiere darte más, pero tú sigues negociando con creencias antiguas. ¿Y si hoy eliges actualizar tu concepto de riqueza? La verdadera abundancia es cuando tu alma se siente expandida y sostenida.",
+            "Has confundido abundancia con acumulación. Pero la abundancia real es circulación, conexión, confianza. Es compartir sin miedo, es saber que nada se agota, que todo se renueva desde tu campo.",
+            "¿A quién estás siendo leal cuando eliges escasez emocional o material?",
+            "La confusión es una invitación a pausar, no a rendirme.",
+            "Elijo sentir antes que resolver.",
+            "Cuando respiro, recuerdo quién soy. Respira profundo.",
+            "La duda no es enemiga, es un llamado para que te detengas y vuelvas a encontrarte.",
+            "¿A quién estás tratando de complacer en tu toma de decisiones?",
+            "Tu creatividad no está rota. Solo está esperando que dejes de juzgarla, que dejes de pedirle utilidad o éxito. Lo que quiere es respirar contigo, moverse sin reglas, hablarte con símbolos, colores, silencios.",
+            "Hay algo que solo tú puedes crear. No por tu técnica, sino por tu energía. Por tu historia, tu herida, tu visión. El mundo necesita esa frecuencia única que vive en tus manos y tu corazón.",
+            "¿Qué parte has silenciado por miedo a no “hacerlo bien”?",
+            "¿Qué creencia limita tu libertad a crear y a exponerte?",
+            "Crear sin accionar es una forma sutil de autosabotaje.",
+            "La inspiración necesita acción para ser completada.",
+            "Tu proyecto merece más que ideas: merece presencia y ejecución.",
+            "Estoy list@ para sostener lo que quiero ver nacer.",
+            "La acción es mi canal de materialización consciente.",
+            "Crear es un acto poderoso, pero sin acción concreta se convierte en evasión disfrazada. Si lo que estás canalizando es valioso para ti, ¿por qué no lo estás sosteniendo también en lo físico?",
+            "¿De qué te estás protegiendo? ¿Del miedo al rechazo? ¿La idea de que aún “no estás list@”? La perfección es una excusa que oculta un miedo más profundo: el de ser vista en tu poder.",
+            "El universo no puede ayudarte si no das señales claras. Cada acción es un acto de claridad vibracional. La magia responde a lo que eliges sostener, no a lo que solo piensas hacer.",
+            "Cada tarea evitada es una puerta cerrada al proyecto que sueñas. No todo paso tiene que inspirarte, pero sí puede estar al servicio de tu visión.",
+            "¿Qué estás evitando al no ejecutar lo que sabes que necesitas hacer?",
+            "¿Cuántas ideas hermosas han muerto en tu mente por falta de acción sostenida?",
+            "¿Qué miedo te protege cuando no accionas, aunque digas “lo hago mañana”?",
+            "Estás poniendo excusas.",
+            "Los patrones se repiten hasta que se han aprendido las lecciones.",
+            "Trátate bien, las cosas no han de costar tanto.",
+            "Deja de compararte con los demás: tú estás en tu propio camino, y ellos, en los suyos.",
+            "Para obtener un resultado distinto, fíjate en tu manera de reaccionar.",
+            "Deja de conformarte. Es momento de hacer las cosas a tu manera.",
+            "Tómate un momento sin más energía que la tuya.",
+            "Apaga el móvil y date un respiro de las redes sociales. En silencio, entra en tu interior.",
+            "¿Sabías que evitar hacer algo requiere tanta energía mental como llevarlo a cabo? Esta es la señal para que lo hagas.",
+            "Pronto celebrarás una gran victoria.",
+            "En esta ocasión, guárdate tus ideas y planes para ti.",
+            "Deja de temer tu potencial.",
+            "Esa sensación que tienes es acertada.",
+            "Tu esfuerzo pronto hallará recompensa.",
+            "Todo va a salir bien: el universo te está preparando el camino.",
+            "¡Sí, sí. SÍ, SÍ, SÍ...!",
+            "Invierte en tu futuro.",
+            "Manifiéstate más allá de tus sueños. Cierra los ojos y visualiza cómo será la vida cuando todo lo que deseas se haga realidad.",
+            "Si no te sientes de acuerdo, entonces la respuesta es no.",
+            "Esta vez, tu instinto está en lo cierto.",
+            "La Nube te sugiere que modifiques tu rutina para provocar grandes cambios y alterar energías.",
+            "No le des tantas vueltas.",
+            "No hay una manera equivocada de hacer las cosas...sigue.",
+            "Suelta tu necesidad de control. Solo cuando te rindes, puedes liberarte.",
+            "Sé más consciente de lo que consumes para la mente y para tu cuerpo.",
+            "Hay una voz en ti que no grita, pero insiste. Hoy escúchala.",
+            "Haz menos. Siente más. Confía más.",
+            "¿A qué sueño ya le pusiste fecha de expiración sin darte cuenta?",
+            "La Nube de hoy te susurra: La claridad llega cuando dejas de buscarla como estrategia para controlar.",
+            "La Nube te observa... y te recuerda que tu poder no necesita validación externa.",
+            "Hoy permite que tu respiración tome decisiones antes que tu mente.",
+            "Estás tan cerca de la abundancia... que solo el auto-sabotaje lo nota.",
+            "Revelación: La indecisión es solo el disfraz del miedo a ser visto brillando.",
+            "Este no es un día para avanzar. Es un día para honrar el punto donde estás.",
+            "Hoy la Nube te habla con fuerza: Lo que no sueltas, lo repites.",
+            "La energía que pones en compararte… úsala para recordarte.",
+            "La Nube dice: Tu creatividad no está bloqueada, está siendo ignorada.",
+            "Afirmación oracular: Todo lo que creo desde amor, expande.",
+            "La única “estrategia” que necesitas es PRESENCIA.",
+            "Revelación: El “no sé cómo” es solo la mente protegiéndote de lo inevitable.",
+            "No es que no sepas qué hacer. Es que estás esperando tener garantizado el resultado antes de decidir.",
+            "Ese cansancio que sientes no viene del trabajo. Viene de sostener una identidad que ya no vibra contigo.",
+            "La idea que hoy te visita no es casualidad. Es un fragmento de futuro que ha elegido tu cuerpo como hogar. No la ignores por parecer “loca”, “imposible” o “muy distinta”.",
+            "La Nube quiere que recuerdes esto:",
+            "Tu energía es un imán.",
+            "Cuando haces desde alegría, todo se abre más rápido.",
+            "Cuando creas desde deseo, todo se potencia.",
+            "Eso que llamas ‘bloqueo’ es solo una parte de ti esperando ser escuchada.",
+            "Estás más cerca de lo que crees.",
+            "Deja de pensar cómo lo haría otra persona.",
+            "Hazlo como tú lo harías...pero hazlo.",
+            "El problema no es que no sepas qué hacer.",
+            "Es que estás esperando sentirte segur@ antes de hacerlo.",
+            "Pero la seguridad viene después de elegir, no antes.",
+            "Hoy, elige avanzar igual.",
+            "La Nube te revela esto: tu alma ya eligió hace rato.",
+            "Pero tu mente sigue buscando opciones que te hagan sentir segur@.",
+            "Hay una parte de ti que ya decidió… pero estás entreteniéndote con distracciones para no actuar.",
+            "La Nube te pregunta: ¿de quién es la voz que suena en tu mente cuando dudas de ti?",
+            "“Tu mejor estrategia es ser tú, sin forzar.”",
+            "Hoy, da el paso que lleva tiempo pidiendo ser dado.",
+            "No tiene que ser perfecto. No tiene que ser grande. Solo tiene que ser verdadero.",
+            "La Nube te recuerda: cuando caminas desde el gozo, el universo acelera contigo.",
+            "No estás esperando claridad. Estás esperando permiso.",
+            "Y la única persona que puede dártelo… eres tú.",
+            "¿Qué acción pequeña podrías hacer hoy que te haría sentir orgullos@?",
+            "¿Qué estás postergando por miedo a hacerlo mal, aunque sabes que hacerlo cambiaría todo?",
+            "¿Qué es lo que más deseas... y qué estás haciendo hoy para acercarte a eso?",
+            "¿Qué decisión cambiaría tu semana si te animaras a tomarla hoy?",
+            "Hoy no busques afuera. No preguntes qué deberías hacer.",
+            "La Nube te recuerda: ya lo sabes.",
+            "¿Sabes por qué te cuesta reconocer tu propósito?",
+            "Porque es tan natural para ti… que lo subestimas.",
+            "Tu camino no tiene que parecerse al de nadie más.",
+            "Está hecho a tu medida, a tu ritmo, con tus colores.",
+            "¿Qué harías todos los días aunque nadie te pagara por hacerlo?",
+            "Hoy la Nube quiere jugar contigo.",
+            "Haz algo que nunca harías: un post ridículo, un producto absurdo, un negocio que parezca una broma.",
+            "Y míralo bien… puede que dentro de esa locura viva tu próxima expansión.",
+            "Hoy la Nube te invita a dejar de buscar fórmulas.",
+            "Y empezar a crear desde tu forma.",
+            "Esa es tu diferencia.",
+            "Hoy, abre los sentidos.",
+            "Las Nubes están dejando pistas.",
+            "Este oráculo ha detectado evasión nivel experto.",
+            "Esa idea loca que te persigue… no se va a ir.",
+            "Sí, te estás autoengañando. Con estilo, eso sí.",
+            "Tu zona de confort ya tiene moho.",
+            "Tu miedo está manejando el coche. Tú solo crees que conduces.",
+            "Estás esperando inspiración… pero llevas tres horas en Instagram.",
+            "Crear sin accionar = masturbación energética.",
+            "Tu idea no necesita más colores. Necesita fecha de entrega.",
+            "A veces es mejor un 80% hecho que un 100% imaginado.",
+            "Tu “mañana lo hago” es hoy.",
+            "Suficiente análisis. Acción, por favor.",
+            "No necesitas más cursos. Necesitas más coraje.",
+            "Estás procrastinando tan bien que parece autoconocimiento.",
+            "Si tu proceso de sanar es eterno, quizás te gusta más el drama que la transformación... ¡auch!",
+            "¿Qué haces tanto analizando tus heridas si no usas la medicina?",
+            "¿Y si la indecisión es solo una forma elegante de seguir en lo mismo?",
+            "Manifiestas lento porque tu WiFi interno está colapsado por tanto pensamiento repetido.",
+            "No eres floj@, eres profundamente comprometid@ con tu evasión.",
+            "¿No te vibra o solo no quieres hacer lo difícil?",
+            "Si no lo haces tú, nadie más lo va a hacer por ti. Ni el universo.",
+            "La Nube te confirma: lo que estás postergando no es difícil, es transformador. Por eso lo evitas.",
+            "La Nube te dice: estás lista para recibir a lo grande.",
+            "La Nube reflexiona: estás más alinead@ de lo que crees. Solo necesitas confiar en tu ritmo.",
+            "La Nube te dice con certeza: estás más cerca de lo que crees.",
+            "La Nube detecta que ya estás vibrando diferente.",
+            "La Nube sabe que estás en el borde exacto de tu nueva versión. No retrocedas. Un paso más… y todo se abre.",
+            "La Nube detecta una decisión poderosa esperando nacer. Hoy, di ese “sí” que viene cargado de destino.",
+            "La Nube detecta magnetismo en ti. Hoy, enfócate en lo que amas, no en lo que te falta. Ahí está tu poder creador."
+        ];
+        
+        const fondos = [
+            "linear-gradient(135deg, #FF6B6B, #F8E3A6, #A3E4D7)",
+            "linear-gradient(135deg, #8E44AD, #C0392B, #2C3E50)",
+            "linear-gradient(135deg, #1ABC9C, #3498DB, #9B59B6)",
+            "linear-gradient(135deg, #E67E22, #F39C12, #E74C3C)",
+            "linear-gradient(135deg, #34495E, #95A5A6, #BDC3C7)",
+            "linear-gradient(135deg, #3B5998, #8B9DC3, #DFE3EE)",
+            "linear-gradient(135deg, #2ECC71, #27AE60, #2C3E50)",
+            "linear-gradient(135deg, #FAD7A0, #F7DC6F, #D98880)",
+            "linear-gradient(135deg, #8E44AD, #3498DB, #3498DB)",
+            "linear-gradient(135deg, #F1C40F, #E67E22, #C0392B)"
+        ];
 
-    const fondos = [
-      "radial-gradient(circle at center, #e9e6b2, #cbb5cb)",
-      "radial-gradient(circle at center, #daeaff, #e3b6f7)",
-      "radial-gradient(circle at center, #5a3691, #4d0d4d)",
-      "radial-gradient(circle at center, #a6dfd3, #ff8a5c)",
-      "radial-gradient(circle at center, #e7f8aa, #b3d8a1)",
-      "radial-gradient(circle at center, #7c5be6, #2b213d)",
-      "radial-gradient(circle at center, #f4ca66, #c28e6c)",
-      "radial-gradient(circle at center, #ff9a7b, #f6c390)",
-      "radial-gradient(circle at center, #dfffe2, #ffe189)",
-      "radial-gradient(circle at center, #6da3e0, #c3edff)",
-      "radial-gradient(circle at center, #e4ee9b, #9e9e9e)",
-      "radial-gradient(circle at center, #c2c6bc, #636d74)"
-    ];
+        const mensajePrincipalElemento = document.getElementById("mensajePrincipal");
+        const bodyElemento = document.body;
 
-    const mensajeElemento = document.getElementById("mensaje");
-    const contenidoElemento = document.getElementById("contenido");
+        const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-    // Elegir mensaje aleatorio
-    const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
-    const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-    mensajeElemento.textContent = capitalizar(mensaje);
+        const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
+        mensajePrincipalElemento.textContent = capitalizar(mensaje);
 
-    // Elegir fondo aleatorio
-    const fondo = fondos[Math.floor(Math.random() * fondos.length)];
-    contenidoElemento.style.background = fondo;
-  </script>
+        const fondoAleatorio = fondos[Math.floor(Math.random() * fondos.length)];
+        bodyElemento.style.backgroundImage = fondoAleatorio;
+        
+    </script>
 </body>
 </html>
