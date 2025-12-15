@@ -56,6 +56,8 @@
             min-height: 250px;
             transform-style: preserve-3d;
             transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* Añadido para indicar que es clickeable */
+            cursor: pointer; 
         }
 
         .card-container.flipped {
@@ -207,8 +209,7 @@
             "Estás poniendo excusas.",
             "Trátate bien…. Come bien.",
             "Deja de compararte con los demás",
-            // CORRECCIÓN APLICADA: Se añadió la comilla de cierre y la coma.
-            "Regala o regálate ¡Tu próxima compra en www.lasnubes.com tiene un 10% de descuento! Usa el código NUBE10",
+            "Regala o regálate ¡Tu próxima compra en www.lasnubes.com tiene un 10% de descuento! Usa el código NUBE10", 
             "Esa sensación que tienes es acertada.",
             "Apaga el móvil y date un respiro de las redes sociales.",
             "La Nube detecta risas pendientes en tu agenda.",
@@ -232,7 +233,7 @@
             "¿Y si pruebas a sonreír antes de que algo ocurra?",
             "La Nube detecta que necesitas un abrazo… aquí va ☁️",
             "La Nube insiste: tus ideas locas son las mejores.",
-            "¡Hasta los cielos hacen rebajas! Obtén un 10% OFF en www.lasnubes.com. ¡Usa el código y verás!",
+            "¡Hasta los cielos hacen rebajas! Obtén un 10% en www.lasnubes.com. ¡Usa el código NUBE10 y verás!",
             "¿Qué tal si bailas cinco minutos sin motivo?",
             "La alegría que cultivo se multiplica en mi vida. Repítelo x5",
             "La Nube suelta un spoiler: te va a salir bien.",
@@ -247,7 +248,7 @@
             "La Nube sopla un secreto: confía más en ti.",
             "Deja de posponerlo… Tú sabes qué.",
             "Eres libre de cambiar de opinión.",
-            "La Nube te sopla esto: todo lo que das vuelve x10. Prepárate para recibir.",
+            "La Nube te sopla esto: todo lo que das vuelve a ti x10. Prepárate para recibir.",
             "Hay algo que debes sanar.",
             "Pon tus límites."
         ];
@@ -257,11 +258,44 @@
         
         const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
         
-        setTimeout(() => {
+        let isFlipped = false;
+
+        // Función para seleccionar y mostrar un nuevo mensaje
+        const mostrarNuevoMensaje = () => {
             const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
+            // Aplica capitalización y limpieza de puntos duplicados
             mensajePrincipalElemento.textContent = capitalizar(mensaje.replace('..', '.'));
+        }
+
+        // 1. Mostrar el primer mensaje y voltear al cargar (como antes)
+        setTimeout(() => {
+            mostrarNuevoMensaje();
             cardContainer.classList.add('flipped');
+            isFlipped = true;
         }, 1000);
+
+        // 2. Añadir funcionalidad de clic para obtener un nuevo mensaje
+        cardContainer.addEventListener('click', () => {
+            // Si la tarjeta está girada (mostrando el mensaje)
+            if (isFlipped) {
+                // Voltear a la cara principal
+                cardContainer.classList.remove('flipped');
+                isFlipped = false;
+                
+                // Esperar a que se complete la animación de vuelta (1000ms en CSS)
+                // para cargar el nuevo mensaje y voltear de nuevo.
+                setTimeout(() => {
+                    mostrarNuevoMensaje();
+                    cardContainer.classList.add('flipped');
+                    isFlipped = true;
+                }, 500); // 500ms es suficiente para que parezca que se carga al girar
+            } else {
+                // Si está en la cara principal, simplemente voltear a la de atrás
+                mostrarNuevoMensaje();
+                cardContainer.classList.add('flipped');
+                isFlipped = true;
+            }
+        });
     </script>
 </body>
 </html>
