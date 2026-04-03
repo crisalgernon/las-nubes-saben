@@ -56,7 +56,6 @@
             min-height: 250px;
             transform-style: preserve-3d;
             transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            /* Añadido para indicar que es clickeable */
             cursor: pointer; 
         }
 
@@ -115,7 +114,6 @@
             font-weight: 700;
             line-height: 1.3;
             color: var(--color-text-dark);
-            /* Reducimos el espacio de arriba */
             margin-top: 0.5rem; 
             text-align: left;
         }
@@ -168,64 +166,63 @@
         const mensajes = [
             "Fluye con la corriente de la vida.",
             "Contempla el instante: todo es aquí y ahora.",
-            "Solo quien se equivoca, aprende y tú lo sabes",
+            "Solo quien se equivoca aprende, y tú lo sabes.",
             "El silencio otorga respuestas profundas.",
             "No temas dejar atrás lo viejo para que nazca lo nuevo.",
             "Tómate tu tiempo, vívelo sin prisa.",
-            "La respuesta te llegará cuando calmes tu mente",
+            "La respuesta te llegará cuando calmes tu mente.",
             "No lleves el pasado como carga, toma su enseñanza.",
             "Encontrarás tu respuesta cuando silencies la mente.",
             "Confía en la magia de cada comienzo.",
             "Elige de nuevo cuando lo necesites.",
             "Sé paciente, todo ocurre en su tiempo.",
             "Disfruta de todo lo que te pase, ¿lo ves?",
-            "No temas cambiar de dirección",
+            "No temas cambiar de dirección.",
             "Escucha tu voz interior; ella no se equivoca. ¿Qué te está diciendo?",
             "Sé agradecido en cada circunstancia.",
             "La Nube no puede ayudarte en esta ocasión.",
-            "Esta página te da luz verde, grande, brillante y en Neón.",
+            "Esta página te da luz verde, grande, brillante y en neón.",
             "Debes saber que no hay límites para eso que quieres.",
             "Hoy es un buen día para comenzar de nuevo.",
             "Atrévete a pedirle al universo exactamente lo que sueñas.",
-            "Hoy es un buen día para comenzar de nuevo.",
             "Sigue tu intuición. Ya sabes qué hacer.",
             "El cambio comienza con un pequeño paso. ¿Por qué no lo das hoy?",
-            "La magia ocurre cuando sueltas el control. SUÉLTALO",
+            "La magia ocurre cuando sueltas el control. ¡Suéltalo!",
             "Da el salto, el universo te sostiene. ¿Qué esperas?",
-            "Tienes que dejar ir lo que ya no vibra contigo.",
+            "Soltar también es una forma de elegir.",
             "Cuida tus palabras, ellas están creando tu mundo.",
             "Te invito a que respires profundo.",
             "Eres más valiente de lo que imaginas.",
-            "Si algo te inquieta, obsérvalo sin juicio. ¿Qué es?",
+            "Si algo te inquieta, obsérvalo sin juicio. ¿De qué se trata?",
             "El futuro llamó: dice que ya puedes dejar de procrastinar.",
-            "El universo no responde a tu esfuerzo, responde a tu vibración. Haz menos. Siente más.",
-            "Tu bloqueo no es mental, es energético. Tu cuerpo no se siente seguro aún.",
+            "Hoy, menos hacer y más ser.",
+            "La Nube sugiere que te tomes un café sin mirar el móvil.",
             "¿Cuál es la excusa que más usas? Piénsalo.",
-            "Detrás de cada excusa hay una identidad que no quiere morir.",
+            "La Nube lo dice con cariño: esa excusa ya la conoce de memoria.",
             "Hoy la Nube te pregunta: ¿estás realmente avanzando o solo girando en círculos?",
             "Estás más cerca de lo que crees. Sigue.",
             "Hoy es un buen día para avanzar con ligereza.",
             "No subestimes el poder de un pequeño movimiento. Muévete.",
             "Estás poniendo excusas.",
-            "Trátate bien…. Come bien.",
-            "Deja de compararte con los demás",
-            "Regala o regálate ¡Tu próxima compra en www.lasnubes.com tiene un 10% de descuento! Usa el código NUBE10", 
+            "Trátate bien… Come bien.",
+            "Deja de compararte con los demás.",
+            "¡Regala o regálate! Tu próxima compra en www.lasnubes.com tiene un 10% de descuento. Usa el código NUBE10.",
             "Esa sensación que tienes es acertada.",
             "Apaga el móvil y date un respiro de las redes sociales.",
             "La Nube detecta risas pendientes en tu agenda.",
             "Pronto celebrarás algo importante para ti.",
             "En esta ocasión, guárdate tus ideas y planes para ti.",
-            "Todo va a salir bien: El universo te está preparando el camino.",
-            "¡Sí, sí. SÍ, SÍ, SÍ...!",
+            "Todo va a salir bien. El universo te está preparando el camino.",
+            "¡Sí, sí. ¡SÍ, SÍ, SÍ!",
             "Cierra los ojos y visualiza cómo será la vida cuando todo lo que deseas se haga realidad.",
-            "Si no te sientes de acuerdo, entonces la respuesta es no.",
-            "La Nube te sugiere que modifiques tu rutina para provocar grandes cambios",
-            "La Nube te dice: No le des tantas vueltas.",
-            "Afirmación oracular: Todo lo que creo desde amor, se expande.",
-            "Hoy, da el paso que lleva tiempo pidiendo ser dado.",
-            "Hoy la Nube quiere jugar contigo….jejeje",
-            "Tu zona de confort ya tiene moho.",
-            "Tú “mañana lo hago” es hoy.",
+            "Si no estás de acuerdo, la respuesta es no.",
+            "La Nube te sugiere que modifiques tu rutina para provocar grandes cambios.",
+            "La Nube te dice: no le des tantas vueltas.",
+            "Afirmación oracular: todo lo que creo desde el amor, se expande.",
+            "Hoy, da el paso que llevas tiempo posponiendo.",
+            "Hoy la Nube quiere jugar contigo… jejeje.",
+            "La Nube te sopla: hay vida más allá de la rutina. Asómate.",
+            "Tu \"mañana lo hago\" es hoy.",
             "La Nube te dice con certeza: estás más cerca de lo que crees.",
             "La Nube detecta que ya estás vibrando diferente.",
             "La Nube detecta una decisión poderosa por tomar.",
@@ -233,9 +230,9 @@
             "¿Y si pruebas a sonreír antes de que algo ocurra?",
             "La Nube detecta que necesitas un abrazo… aquí va ☁️",
             "La Nube insiste: tus ideas locas son las mejores.",
-            "¡Hasta los cielos hacen rebajas! Obtén un 10% en www.lasnubes.com. ¡Usa el código NUBE10 y verás!",
+            "¡Hasta los cielos hacen rebajas! Obtén un 10% en www.lasnubes.com. ¡Usa el código NUBE10!",
             "¿Qué tal si bailas cinco minutos sin motivo?",
-            "La alegría que cultivo se multiplica en mi vida. Repítelo x5",
+            "La alegría que cultivo se multiplica en mi vida. Repítelo x5.",
             "La Nube suelta un spoiler: te va a salir bien.",
             "La Nube murmura: suelta lo que pesa.",
             "La Nube insiste: tus excusas ya huelen a quemado.",
@@ -249,7 +246,7 @@
             "Deja de posponerlo… Tú sabes qué.",
             "Eres libre de cambiar de opinión.",
             "La Nube te sopla esto: todo lo que das vuelve a ti x10. Prepárate para recibir.",
-            "Hay algo que debes sanar.",
+            "La Nube te recuerda que descansar también es avanzar.",
             "Pon tus límites."
         ];
         
@@ -260,37 +257,28 @@
         
         let isFlipped = false;
 
-        // Función para seleccionar y mostrar un nuevo mensaje
         const mostrarNuevoMensaje = () => {
             const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
-            // Aplica capitalización y limpieza de puntos duplicados
             mensajePrincipalElemento.textContent = capitalizar(mensaje.replace('..', '.'));
         }
 
-        // 1. Mostrar el primer mensaje y voltear al cargar (como antes)
         setTimeout(() => {
             mostrarNuevoMensaje();
             cardContainer.classList.add('flipped');
             isFlipped = true;
         }, 1000);
 
-        // 2. Añadir funcionalidad de clic para obtener un nuevo mensaje
         cardContainer.addEventListener('click', () => {
-            // Si la tarjeta está girada (mostrando el mensaje)
             if (isFlipped) {
-                // Voltear a la cara principal
                 cardContainer.classList.remove('flipped');
                 isFlipped = false;
                 
-                // Esperar a que se complete la animación de vuelta (1000ms en CSS)
-                // para cargar el nuevo mensaje y voltear de nuevo.
                 setTimeout(() => {
                     mostrarNuevoMensaje();
                     cardContainer.classList.add('flipped');
                     isFlipped = true;
-                }, 500); // 500ms es suficiente para que parezca que se carga al girar
+                }, 500);
             } else {
-                // Si está en la cara principal, simplemente voltear a la de atrás
                 mostrarNuevoMensaje();
                 cardContainer.classList.add('flipped');
                 isFlipped = true;
